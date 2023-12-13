@@ -3,13 +3,7 @@ security:
 #    enable_authenticator_manager: true
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     role_hierarchy:
-        ROLE_CLIENT: [ 'ROLE_USER' ]
-        ROLE_DEMARCHEUR: [ 'ROLE_CLIENT' ]
-        ROLE_AGENT_IMMO: [ 'ROLE_DEMARCHEUR' ]
-        ROLE_CONSEILLER: [ 'ROLE_AGENT_IMMO' ]
-        ROLE_PROPRIETAIRE: [ 'ROLE_AGENT_IMMO' ]
-        ROLE_CHEF_AGENCE: [ 'ROLE_PROPRIETAIRE' ]
-        ROLE_ADMIN: [ 'ROLE_CONSEILLER', 'ROLE_CHEF_AGENCE' ]
+        ROLE_ADMIN: [ 'ROLE_USER' ]
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider

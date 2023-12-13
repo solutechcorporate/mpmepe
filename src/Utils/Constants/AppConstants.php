@@ -4,17 +4,15 @@ namespace App\Utils\Constants;
 
 class AppConstants
 {
-    final public const AGENCE_FOLDER = 'uploads/agence/';
+    final public const ARTICLE_FOLDER = 'uploads/article/';
 
-    final public const ANTENNE_FOLDER = 'uploads/antenne/';
+    final public const MINISTERE_FOLDER = 'uploads/ministere/';
 
-    final public const ARTICLE_CONSEIL_FOLDER = 'uploads/article_conseil/';
+    final public const SOCIAL_NETWORK_FOLDER = 'uploads/social_network/';
 
-    final public const BIEN_FOLDER = 'uploads/bien/';
+    final public const DOCUMENT_FOLDER = 'uploads/document/';
 
-    final public const PAYS_FOLDER = 'uploads/pays/';
-
-    final public const SERVICE_FOLDER = 'uploads/service/';
+    final public const PAGE_FOLDER = 'uploads/page/';
 
     final public const USER_FOLDER = 'uploads/user/';
 

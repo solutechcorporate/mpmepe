@@ -102,18 +102,16 @@ class FileUploader
     private function getFileFolderDependOnEntity($entityClass)
     {
         switch ($entityClass) {
-            case 'agence':
-                return AppConstants::AGENCE_FOLDER;
-            case 'antenne':
-                return AppConstants::ANTENNE_FOLDER;
-            case 'article_conseil':
-                return AppConstants::ARTICLE_CONSEIL_FOLDER;
-            case 'bien':
-                return AppConstants::BIEN_FOLDER;
-            case 'pays':
-                return AppConstants::PAYS_FOLDER;
-            case 'service':
-                return AppConstants::SERVICE_FOLDER;
+            case 'article':
+                return AppConstants::ARTICLE_FOLDER;
+            case 'ministere':
+                return AppConstants::MINISTERE_FOLDER;
+            case 'social_network':
+                return AppConstants::SOCIAL_NETWORK_FOLDER;
+            case 'document':
+                return AppConstants::DOCUMENT_FOLDER;
+            case 'page':
+                return AppConstants::PAGE_FOLDER;
             case 'user':
                 return AppConstants::USER_FOLDER;
             default:
