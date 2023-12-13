@@ -58,7 +58,7 @@ class Dirigeant
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: Types::TEXT)]
     private ?string $nomPrenoms = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
@@ -70,25 +70,34 @@ class Dirigeant
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $biographie = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $lienDecret = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $intitule = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $isMinistre = null;
 
-    #[ORM\OneToMany(mappedBy: 'ministreActuel', targetEntity: Ministere::class)]
-    private Collection $ministeres;
+    #[ORM\ManyToOne(inversedBy: 'dirigeants')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Ministere $ministere = null;
 
-    #[ORM\OneToMany(mappedBy: 'directeurActuel', targetEntity: Direction::class)]
-    private Collection $directions;
+    #[ORM\Column(nullable: true)]
+    private ?bool $isMinistreActuel = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $isDirecteur = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $isDirecteurActuel = null;
+
+    #[ORM\ManyToOne(inversedBy: 'dirigeants')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Direction $direction = null;
 
     public function __construct()
     {
-        $this->ministeres = new ArrayCollection();
-        $this->directions = new ArrayCollection();
         $this->dateAjout = new \DateTimeImmutable();
         $this->dateModif = new \DateTime();
     }
@@ -182,62 +191,62 @@ class Dirigeant
         return $this;
     }
 
-    /**
-     * @return Collection<int, Ministere>
-     */
-    public function getMinisteres(): Collection
+    public function getMinistere(): ?Ministere
     {
-        return $this->ministeres;
+        return $this->ministere;
     }
 
-    public function addMinistere(Ministere $ministere): static
+    public function setMinistere(?Ministere $ministere): static
     {
-        if (!$this->ministeres->contains($ministere)) {
-            $this->ministeres->add($ministere);
-            $ministere->setMinistreActuel($this);
-        }
+        $this->ministere = $ministere;
 
         return $this;
     }
 
-    public function removeMinistere(Ministere $ministere): static
+    public function isIsMinistreActuel(): ?bool
     {
-        if ($this->ministeres->removeElement($ministere)) {
-            // set the owning side to null (unless already changed)
-            if ($ministere->getMinistreActuel() === $this) {
-                $ministere->setMinistreActuel(null);
-            }
-        }
+        return $this->isMinistreActuel;
+    }
+
+    public function setIsMinistreActuel(?bool $isMinistreActuel): static
+    {
+        $this->isMinistreActuel = $isMinistreActuel;
 
         return $this;
     }
 
-    /**
-     * @return Collection<int, Direction>
-     */
-    public function getDirections(): Collection
+    public function isIsDirecteur(): ?bool
     {
-        return $this->directions;
+        return $this->isDirecteur;
     }
 
-    public function addDirection(Direction $direction): static
+    public function setIsDirecteur(?bool $isDirecteur): static
     {
-        if (!$this->directions->contains($direction)) {
-            $this->directions->add($direction);
-            $direction->setDirecteurActuel($this);
-        }
+        $this->isDirecteur = $isDirecteur;
 
         return $this;
     }
 
-    public function removeDirection(Direction $direction): static
+    public function isIsDirecteurActuel(): ?bool
     {
-        if ($this->directions->removeElement($direction)) {
-            // set the owning side to null (unless already changed)
-            if ($direction->getDirecteurActuel() === $this) {
-                $direction->setDirecteurActuel(null);
-            }
-        }
+        return $this->isDirecteurActuel;
+    }
+
+    public function setIsDirecteurActuel(?bool $isDirecteurActuel): static
+    {
+        $this->isDirecteurActuel = $isDirecteurActuel;
+
+        return $this;
+    }
+
+    public function getDirection(): ?Direction
+    {
+        return $this->direction;
+    }
+
+    public function setDirection(?Direction $direction): static
+    {
+        $this->direction = $direction;
 
         return $this;
     }

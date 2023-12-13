@@ -84,9 +84,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Article::class)]
     private Collection $articles;
 
-    #[ORM\ManyToOne(inversedBy: 'users')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Role $role = null;
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserRole::class)]
+    private Collection $userRoles;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $nbLiaison = null;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Historique::class)]
+    private Collection $historiques;
 
     public function __construct()
     {
@@ -94,6 +99,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->articles = new ArrayCollection();
         $this->dateAjout = new \DateTimeImmutable();
         $this->dateModif = new \DateTime();
+        $this->userRoles = new ArrayCollection();
+        $this->historiques = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -238,15 +245,76 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getRole(): ?Role
+    /**
+     * @return Collection<int, UserRole>
+     */
+    public function getUserRoles(): Collection
     {
-        return $this->role;
+        return $this->userRoles;
     }
 
-    public function setRole(?Role $role): static
+    public function addUserRole(UserRole $userRole): static
     {
-        $this->role = $role;
+        if (!$this->userRoles->contains($userRole)) {
+            $this->userRoles->add($userRole);
+            $userRole->setUser($this);
+        }
 
         return $this;
     }
+
+    public function removeUserRole(UserRole $userRole): static
+    {
+        if ($this->userRoles->removeElement($userRole)) {
+            // set the owning side to null (unless already changed)
+            if ($userRole->getUser() === $this) {
+                $userRole->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getNbLiaison(): ?int
+    {
+        return $this->nbLiaison;
+    }
+
+    public function setNbLiaison(?int $nbLiaison): static
+    {
+        $this->nbLiaison = $nbLiaison;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Historique>
+     */
+    public function getHistoriques(): Collection
+    {
+        return $this->historiques;
+    }
+
+    public function addHistorique(Historique $historique): static
+    {
+        if (!$this->historiques->contains($historique)) {
+            $this->historiques->add($historique);
+            $historique->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHistorique(Historique $historique): static
+    {
+        if ($this->historiques->removeElement($historique)) {
+            // set the owning side to null (unless already changed)
+            if ($historique->getUser() === $this) {
+                $historique->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

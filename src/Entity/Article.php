@@ -58,14 +58,14 @@ class Article
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column]
     private ?string $titre = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column]
     private ?string $contenu = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $imagePath = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $imageReference = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $dateEvent = null;
@@ -119,6 +119,9 @@ class Article
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $nbLiaison = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -148,14 +151,14 @@ class Article
         return $this;
     }
 
-    public function getImagePath(): ?string
+    public function getImageReference(): ?string
     {
-        return $this->imagePath;
+        return $this->imageReference;
     }
 
-    public function setImagePath(string $imagePath): static
+    public function setImageReference(string $imageReference): static
     {
-        $this->imagePath = $imagePath;
+        $this->imageReference = $imageReference;
 
         return $this;
     }
@@ -360,6 +363,18 @@ class Article
     public function setUser(?User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getNbLiaison(): ?int
+    {
+        return $this->nbLiaison;
+    }
+
+    public function setNbLiaison(?int $nbLiaison): static
+    {
+        $this->nbLiaison = $nbLiaison;
 
         return $this;
     }

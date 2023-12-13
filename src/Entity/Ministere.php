@@ -14,6 +14,9 @@ use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use App\Utils\Traits\EntityTimestampTrait;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -48,7 +51,6 @@ use Doctrine\ORM\Mapping as ORM;
 )]
 class Ministere
 {
-
     use EntityTimestampTrait;
 
     #[ORM\Id]
@@ -56,13 +58,13 @@ class Ministere
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $logo = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $logoCodeFichier = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: Types::TEXT)]
     private ?string $nomSite = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $adresse = null;
 
     #[ORM\Column(nullable: true)]
@@ -77,23 +79,30 @@ class Ministere
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
-    #[ORM\ManyToOne(inversedBy: 'ministeres')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Dirigeant $ministreActuel = null;
+    #[ORM\Column(nullable: true)]
+    private ?int $nbLiaison = null;
+
+    #[ORM\OneToMany(mappedBy: 'ministere', targetEntity: Dirigeant::class)]
+    private Collection $dirigeants;
+
+    public function __construct()
+    {
+        $this->dirigeants = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getLogo(): ?string
+    public function getLogoCodeFichier(): ?string
     {
-        return $this->logo;
+        return $this->logoCodeFichier;
     }
 
-    public function setLogo(string $logo): static
+    public function setLogoCodeFichier(string $logoCodeFichier): static
     {
-        $this->logo = $logo;
+        $this->logoCodeFichier = $logoCodeFichier;
 
         return $this;
     }
@@ -170,15 +179,46 @@ class Ministere
         return $this;
     }
 
-    public function getMinistreActuel(): ?Dirigeant
+    public function getNbLiaison(): ?int
     {
-        return $this->ministreActuel;
+        return $this->nbLiaison;
     }
 
-    public function setMinistreActuel(?Dirigeant $ministreActuel): static
+    public function setNbLiaison(?int $nbLiaison): static
     {
-        $this->ministreActuel = $ministreActuel;
+        $this->nbLiaison = $nbLiaison;
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Dirigeant>
+     */
+    public function getDirigeants(): Collection
+    {
+        return $this->dirigeants;
+    }
+
+    public function addDirigeant(Dirigeant $dirigeant): static
+    {
+        if (!$this->dirigeants->contains($dirigeant)) {
+            $this->dirigeants->add($dirigeant);
+            $dirigeant->setMinistere($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDirigeant(Dirigeant $dirigeant): static
+    {
+        if ($this->dirigeants->removeElement($dirigeant)) {
+            // set the owning side to null (unless already changed)
+            if ($dirigeant->getMinistere() === $this) {
+                $dirigeant->setMinistere(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

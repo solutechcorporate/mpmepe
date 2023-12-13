@@ -16,6 +16,7 @@ use ApiPlatform\Metadata\Put;
 use App\Utils\Traits\EntityTimestampTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -60,18 +61,18 @@ class Role
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\Column]
-    private array $droit = [];
+    #[ORM\Column(nullable: true)]
+    private ?int $nbLiaison = null;
 
-    #[ORM\OneToMany(mappedBy: 'role', targetEntity: User::class)]
-    private Collection $users;
+    #[ORM\OneToMany(mappedBy: 'role', targetEntity: UserRole::class)]
+    private Collection $userRoles;
 
     public function __construct()
     {
-        $this->users = new ArrayCollection();
+        $this->userRoles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -103,45 +104,46 @@ class Role
         return $this;
     }
 
-    public function getDroit(): array
+    public function getNbLiaison(): ?int
     {
-        return $this->droit;
+        return $this->nbLiaison;
     }
 
-    public function setDroit(array $droit): static
+    public function setNbLiaison(?int $nbLiaison): static
     {
-        $this->droit = $droit;
+        $this->nbLiaison = $nbLiaison;
 
         return $this;
     }
 
     /**
-     * @return Collection<int, User>
+     * @return Collection<int, UserRole>
      */
-    public function getUsers(): Collection
+    public function getUserRoles(): Collection
     {
-        return $this->users;
+        return $this->userRoles;
     }
 
-    public function addUser(User $user): static
+    public function addUserRole(UserRole $userRole): static
     {
-        if (!$this->users->contains($user)) {
-            $this->users->add($user);
-            $user->setRole($this);
+        if (!$this->userRoles->contains($userRole)) {
+            $this->userRoles->add($userRole);
+            $userRole->setRole($this);
         }
 
         return $this;
     }
 
-    public function removeUser(User $user): static
+    public function removeUserRole(UserRole $userRole): static
     {
-        if ($this->users->removeElement($user)) {
+        if ($this->userRoles->removeElement($userRole)) {
             // set the owning side to null (unless already changed)
-            if ($user->getRole() === $this) {
-                $user->setRole(null);
+            if ($userRole->getRole() === $this) {
+                $userRole->setRole(null);
             }
         }
 
         return $this;
     }
+
 }

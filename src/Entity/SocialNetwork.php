@@ -14,6 +14,7 @@ use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use App\Utils\Traits\EntityTimestampTrait;
+use Doctrine\DBAL\Types\Types;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -55,25 +56,25 @@ class SocialNetwork
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $imagePath = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $imageCodeFichier = null;
 
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: Types::TEXT)]
     private ?string $lien = null;
 
     #[ORM\Column]
     private ?int $affichage = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $headerIsSelect = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $footerIsSelect = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $contactIsSelect = null;
 
     public function getId(): ?int
@@ -81,14 +82,14 @@ class SocialNetwork
         return $this->id;
     }
 
-    public function getImagePath(): ?string
+    public function getImageCodeFichier(): ?string
     {
-        return $this->imagePath;
+        return $this->imageCodeFichier;
     }
 
-    public function setImagePath(string $imagePath): static
+    public function setImageCodeFichier(string $imageCodeFichier): static
     {
-        $this->imagePath = $imagePath;
+        $this->imageCodeFichier = $imageCodeFichier;
 
         return $this;
     }

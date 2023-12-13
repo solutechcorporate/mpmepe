@@ -14,6 +14,8 @@ use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use App\Utils\Traits\EntityTimestampTrait;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -54,7 +56,7 @@ class Contact
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: Types::TEXT)]
     private ?string $nomPrenom = null;
 
     #[ORM\Column(length: 255)]
@@ -63,15 +65,22 @@ class Contact
     #[ORM\Column(length: 255)]
     private ?string $phone = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column]
     private ?string $objet = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column]
     private ?string $message = null;
 
-    #[ORM\ManyToOne(inversedBy: 'contacts')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?TypeDemande $typeDemande = null;
+    #[ORM\Column(nullable: true)]
+    private ?int $nbLiaison = null;
+
+    #[ORM\OneToMany(mappedBy: 'contact', targetEntity: ContactValeurDemande::class)]
+    private Collection $contactValeurDemandes;
+
+    public function __construct()
+    {
+        $this->contactValeurDemandes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -138,15 +147,46 @@ class Contact
         return $this;
     }
 
-    public function getTypeDemande(): ?TypeDemande
+    public function getNbLiaison(): ?int
     {
-        return $this->typeDemande;
+        return $this->nbLiaison;
     }
 
-    public function setTypeDemande(?TypeDemande $typeDemande): static
+    public function setNbLiaison(?int $nbLiaison): static
     {
-        $this->typeDemande = $typeDemande;
+        $this->nbLiaison = $nbLiaison;
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, ContactValeurDemande>
+     */
+    public function getContactValeurDemandes(): Collection
+    {
+        return $this->contactValeurDemandes;
+    }
+
+    public function addContactValeurDemande(ContactValeurDemande $contactValeurDemande): static
+    {
+        if (!$this->contactValeurDemandes->contains($contactValeurDemande)) {
+            $this->contactValeurDemandes->add($contactValeurDemande);
+            $contactValeurDemande->setContact($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContactValeurDemande(ContactValeurDemande $contactValeurDemande): static
+    {
+        if ($this->contactValeurDemandes->removeElement($contactValeurDemande)) {
+            // set the owning side to null (unless already changed)
+            if ($contactValeurDemande->getContact() === $this) {
+                $contactValeurDemande->setContact(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

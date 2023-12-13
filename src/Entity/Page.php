@@ -14,6 +14,8 @@ use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use App\Utils\Traits\EntityTimestampTrait;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -65,6 +67,17 @@ class Page
     #[ORM\JoinColumn(nullable: false)]
     private ?Header $header = null;
 
+    #[ORM\OneToMany(mappedBy: 'page', targetEntity: PageHeader::class)]
+    private Collection $pageHeaders;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $nbLiaison = null;
+
+    public function __construct()
+    {
+        $this->pageHeaders = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -102,6 +115,48 @@ class Page
     public function setHeader(?Header $header): static
     {
         $this->header = $header;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PageHeader>
+     */
+    public function getPageHeaders(): Collection
+    {
+        return $this->pageHeaders;
+    }
+
+    public function addPageHeader(PageHeader $pageHeader): static
+    {
+        if (!$this->pageHeaders->contains($pageHeader)) {
+            $this->pageHeaders->add($pageHeader);
+            $pageHeader->setPage($this);
+        }
+
+        return $this;
+    }
+
+    public function removePageHeader(PageHeader $pageHeader): static
+    {
+        if ($this->pageHeaders->removeElement($pageHeader)) {
+            // set the owning side to null (unless already changed)
+            if ($pageHeader->getPage() === $this) {
+                $pageHeader->setPage(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getNbLiaison(): ?int
+    {
+        return $this->nbLiaison;
+    }
+
+    public function setNbLiaison(?int $nbLiaison): static
+    {
+        $this->nbLiaison = $nbLiaison;
 
         return $this;
     }

@@ -59,14 +59,17 @@ class CategorieDocument
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
-    #[ORM\OneToMany(mappedBy: 'categorieDoc', targetEntity: Document::class)]
-    private Collection $documents;
+    #[ORM\Column(nullable: true)]
+    private ?int $nbLiaison = null;
+
+    #[ORM\OneToMany(mappedBy: 'categorieDocument', targetEntity: DocumentCategorieDocument::class)]
+    private Collection $documentCategorieDocuments;
 
     public function __construct()
     {
-        $this->documents = new ArrayCollection();
         $this->dateAjout = new \DateTimeImmutable();
         $this->dateModif = new \DateTime();
+        $this->documentCategorieDocuments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -86,33 +89,46 @@ class CategorieDocument
         return $this;
     }
 
-    /**
-     * @return Collection<int, Document>
-     */
-    public function getDocuments(): Collection
+    public function getNbLiaison(): ?int
     {
-        return $this->documents;
+        return $this->nbLiaison;
     }
 
-    public function addDocument(Document $document): static
+    public function setNbLiaison(?int $nbLiaison): static
     {
-        if (!$this->documents->contains($document)) {
-            $this->documents->add($document);
-            $document->setCategorieDoc($this);
+        $this->nbLiaison = $nbLiaison;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, DocumentCategorieDocument>
+     */
+    public function getDocumentCategorieDocuments(): Collection
+    {
+        return $this->documentCategorieDocuments;
+    }
+
+    public function addDocumentCategorieDocument(DocumentCategorieDocument $documentCategorieDocument): static
+    {
+        if (!$this->documentCategorieDocuments->contains($documentCategorieDocument)) {
+            $this->documentCategorieDocuments->add($documentCategorieDocument);
+            $documentCategorieDocument->setCategorieDocument($this);
         }
 
         return $this;
     }
 
-    public function removeDocument(Document $document): static
+    public function removeDocumentCategorieDocument(DocumentCategorieDocument $documentCategorieDocument): static
     {
-        if ($this->documents->removeElement($document)) {
+        if ($this->documentCategorieDocuments->removeElement($documentCategorieDocument)) {
             // set the owning side to null (unless already changed)
-            if ($document->getCategorieDoc() === $this) {
-                $document->setCategorieDoc(null);
+            if ($documentCategorieDocument->getCategorieDocument() === $this) {
+                $documentCategorieDocument->setCategorieDocument(null);
             }
         }
 
         return $this;
     }
+
 }

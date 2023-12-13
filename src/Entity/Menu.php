@@ -67,6 +67,9 @@ class Menu
     #[ORM\OneToMany(mappedBy: 'menu', targetEntity: SousMenu::class)]
     private Collection $sousMenus;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $nbLiaison = null;
+
     public function __construct()
     {
         $this->sousMenus = new ArrayCollection();
@@ -129,6 +132,18 @@ class Menu
                 $sousMenu->setMenu(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getNbLiaison(): ?int
+    {
+        return $this->nbLiaison;
+    }
+
+    public function setNbLiaison(?int $nbLiaison): static
+    {
+        $this->nbLiaison = $nbLiaison;
 
         return $this;
     }

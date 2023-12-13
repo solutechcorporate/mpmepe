@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Repository\TypeDemandeRepository;
+use App\Repository\DemandeRepository;
 use ApiPlatform\Doctrine\Orm\Filter\DateFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiProperty;
@@ -21,10 +21,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: TypeDemandeRepository::class)]
+#[ORM\Entity(repositoryClass: DemandeRepository::class)]
 #[ApiResource(
-    normalizationContext: ['groups' => ['read:TypeDemande','read:Entity']],
-    denormalizationContext: ['groups' => ['write:TypeDemande','write:Entity']],
+    normalizationContext: ['groups' => ['read:Demande','read:Entity']],
+    denormalizationContext: ['groups' => ['write:Demande','write:Entity']],
     operations: [
         new Get(
             security: "is_granted('ROLE_ADMIN')"
@@ -48,7 +48,7 @@ use Doctrine\ORM\Mapping as ORM;
         )
     ]
 )]
-class TypeDemande
+class Demande
 {
     use EntityTimestampTrait;
 
@@ -60,17 +60,18 @@ class TypeDemande
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $type = null;
+    #[ORM\Column(nullable: true)]
+    private ?int $nbLiaison = null;
 
-    #[ORM\OneToMany(mappedBy: 'typeDemande', targetEntity: Contact::class)]
-    private Collection $contacts;
+    #[ORM\OneToMany(mappedBy: 'demande', targetEntity: ValeurDemande::class)]
+    private Collection $valeurDemandes;
 
     public function __construct()
     {
         $this->contacts = new ArrayCollection();
         $this->dateAjout = new \DateTimeImmutable();
         $this->dateModif = new \DateTime();
+        $this->valeurDemandes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -90,45 +91,46 @@ class TypeDemande
         return $this;
     }
 
-    public function getType(): ?string
+    public function getNbLiaison(): ?int
     {
-        return $this->type;
+        return $this->nbLiaison;
     }
 
-    public function setType(string $type): static
+    public function setNbLiaison(?int $nbLiaison): static
     {
-        $this->type = $type;
+        $this->nbLiaison = $nbLiaison;
 
         return $this;
     }
 
     /**
-     * @return Collection<int, Contact>
+     * @return Collection<int, ValeurDemande>
      */
-    public function getContacts(): Collection
+    public function getValeurDemandes(): Collection
     {
-        return $this->contacts;
+        return $this->valeurDemandes;
     }
 
-    public function addContact(Contact $contact): static
+    public function addValeurDemande(ValeurDemande $valeurDemande): static
     {
-        if (!$this->contacts->contains($contact)) {
-            $this->contacts->add($contact);
-            $contact->setTypeDemande($this);
+        if (!$this->valeurDemandes->contains($valeurDemande)) {
+            $this->valeurDemandes->add($valeurDemande);
+            $valeurDemande->setDemande($this);
         }
 
         return $this;
     }
 
-    public function removeContact(Contact $contact): static
+    public function removeValeurDemande(ValeurDemande $valeurDemande): static
     {
-        if ($this->contacts->removeElement($contact)) {
+        if ($this->valeurDemandes->removeElement($valeurDemande)) {
             // set the owning side to null (unless already changed)
-            if ($contact->getTypeDemande() === $this) {
-                $contact->setTypeDemande(null);
+            if ($valeurDemande->getDemande() === $this) {
+                $valeurDemande->setDemande(null);
             }
         }
 
         return $this;
     }
+
 }

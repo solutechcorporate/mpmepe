@@ -14,6 +14,8 @@ use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use App\Utils\Traits\EntityTimestampTrait;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -68,9 +70,16 @@ class Direction
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
-    #[ORM\ManyToOne(inversedBy: 'directions')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Dirigeant $directeurActuel = null;
+    #[ORM\OneToMany(mappedBy: 'direction', targetEntity: Dirigeant::class)]
+    private Collection $dirigeants;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $nbLiaison = null;
+
+    public function __construct()
+    {
+        $this->dirigeants = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -125,15 +134,46 @@ class Direction
         return $this;
     }
 
-    public function getDirecteurActuel(): ?Dirigeant
+    /**
+     * @return Collection<int, Dirigeant>
+     */
+    public function getDirigeants(): Collection
     {
-        return $this->directeurActuel;
+        return $this->dirigeants;
     }
 
-    public function setDirecteurActuel(?Dirigeant $directeurActuel): static
+    public function addDirigeant(Dirigeant $dirigeant): static
     {
-        $this->directeurActuel = $directeurActuel;
+        if (!$this->dirigeants->contains($dirigeant)) {
+            $this->dirigeants->add($dirigeant);
+            $dirigeant->setDirection($this);
+        }
 
         return $this;
     }
+
+    public function removeDirigeant(Dirigeant $dirigeant): static
+    {
+        if ($this->dirigeants->removeElement($dirigeant)) {
+            // set the owning side to null (unless already changed)
+            if ($dirigeant->getDirection() === $this) {
+                $dirigeant->setDirection(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getNbLiaison(): ?int
+    {
+        return $this->nbLiaison;
+    }
+
+    public function setNbLiaison(?int $nbLiaison): static
+    {
+        $this->nbLiaison = $nbLiaison;
+
+        return $this;
+    }
+
 }

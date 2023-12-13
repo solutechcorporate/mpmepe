@@ -14,6 +14,8 @@ use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use App\Utils\Traits\EntityTimestampTrait;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -56,10 +58,10 @@ class Document
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $docPath = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $docCodeFichier = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: Types::TEXT)]
     private ?string $titre = null;
 
     #[ORM\Column]
@@ -70,25 +72,32 @@ class Document
 
     #[ORM\ManyToOne(inversedBy: 'documents')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?CategorieDocument $categorieDoc = null;
-
-    #[ORM\ManyToOne(inversedBy: 'documents')]
-    #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $nbLiaison = null;
+
+    #[ORM\OneToMany(mappedBy: 'document', targetEntity: DocumentCategorieDocument::class)]
+    private Collection $documentCategorieDocuments;
+
+    public function __construct()
+    {
+        $this->documentCategorieDocuments = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getDocPath(): ?string
+    public function getDocCodeFichier(): ?string
     {
-        return $this->docPath;
+        return $this->docCodeFichier;
     }
 
-    public function setDocPath(string $docPath): static
+    public function setDocCodeFichier(string $docCodeFichier): static
     {
-        $this->docPath = $docPath;
+        $this->docCodeFichier = $docCodeFichier;
 
         return $this;
     }
@@ -129,18 +138,6 @@ class Document
         return $this;
     }
 
-    public function getCategorieDoc(): ?CategorieDocument
-    {
-        return $this->categorieDoc;
-    }
-
-    public function setCategorieDoc(?CategorieDocument $categorieDoc): static
-    {
-        $this->categorieDoc = $categorieDoc;
-
-        return $this;
-    }
-
     public function getUser(): ?User
     {
         return $this->user;
@@ -149,6 +146,48 @@ class Document
     public function setUser(?User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getNbLiaison(): ?int
+    {
+        return $this->nbLiaison;
+    }
+
+    public function setNbLiaison(?int $nbLiaison): static
+    {
+        $this->nbLiaison = $nbLiaison;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, DocumentCategorieDocument>
+     */
+    public function getDocumentCategorieDocuments(): Collection
+    {
+        return $this->documentCategorieDocuments;
+    }
+
+    public function addDocumentCategorieDocument(DocumentCategorieDocument $documentCategorieDocument): static
+    {
+        if (!$this->documentCategorieDocuments->contains($documentCategorieDocument)) {
+            $this->documentCategorieDocuments->add($documentCategorieDocument);
+            $documentCategorieDocument->setDocument($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDocumentCategorieDocument(DocumentCategorieDocument $documentCategorieDocument): static
+    {
+        if ($this->documentCategorieDocuments->removeElement($documentCategorieDocument)) {
+            // set the owning side to null (unless already changed)
+            if ($documentCategorieDocument->getDocument() === $this) {
+                $documentCategorieDocument->setDocument(null);
+            }
+        }
 
         return $this;
     }

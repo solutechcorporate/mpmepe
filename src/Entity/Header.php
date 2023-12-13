@@ -14,6 +14,7 @@ use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use App\Utils\Traits\EntityTimestampTrait;
+use Doctrine\DBAL\Types\Types;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -63,24 +64,27 @@ class Header
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $affichage = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $slog = null;
-
-    #[ORM\OneToMany(mappedBy: 'header', targetEntity: Page::class)]
-    private Collection $pages;
 
     #[ORM\OneToMany(mappedBy: 'header', targetEntity: Menu::class)]
     private Collection $menus;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $nbLiaison = null;
+
+    #[ORM\OneToMany(mappedBy: 'header', targetEntity: PageHeader::class)]
+    private Collection $pageHeaders;
+
     public function __construct()
     {
-        $this->pages = new ArrayCollection();
         $this->menus = new ArrayCollection();
         $this->dateAjout = new \DateTimeImmutable();
         $this->dateModif = new \DateTime();
+        $this->pageHeaders = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -137,36 +141,6 @@ class Header
     }
 
     /**
-     * @return Collection<int, Page>
-     */
-    public function getPages(): Collection
-    {
-        return $this->pages;
-    }
-
-    public function addPage(Page $page): static
-    {
-        if (!$this->pages->contains($page)) {
-            $this->pages->add($page);
-            $page->setHeader($this);
-        }
-
-        return $this;
-    }
-
-    public function removePage(Page $page): static
-    {
-        if ($this->pages->removeElement($page)) {
-            // set the owning side to null (unless already changed)
-            if ($page->getHeader() === $this) {
-                $page->setHeader(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, Menu>
      */
     public function getMenus(): Collection
@@ -190,6 +164,48 @@ class Header
             // set the owning side to null (unless already changed)
             if ($menu->getHeader() === $this) {
                 $menu->setHeader(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getNbLiaison(): ?int
+    {
+        return $this->nbLiaison;
+    }
+
+    public function setNbLiaison(?int $nbLiaison): static
+    {
+        $this->nbLiaison = $nbLiaison;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PageHeader>
+     */
+    public function getPageHeaders(): Collection
+    {
+        return $this->pageHeaders;
+    }
+
+    public function addPageHeader(PageHeader $pageHeader): static
+    {
+        if (!$this->pageHeaders->contains($pageHeader)) {
+            $this->pageHeaders->add($pageHeader);
+            $pageHeader->setHeader($this);
+        }
+
+        return $this;
+    }
+
+    public function removePageHeader(PageHeader $pageHeader): static
+    {
+        if ($this->pageHeaders->removeElement($pageHeader)) {
+            // set the owning side to null (unless already changed)
+            if ($pageHeader->getHeader() === $this) {
+                $pageHeader->setHeader(null);
             }
         }
 
