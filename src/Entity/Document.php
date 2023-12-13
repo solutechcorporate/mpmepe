@@ -76,6 +76,15 @@ class Document
     #[ORM\OneToMany(mappedBy: 'document', targetEntity: DocumentCategorieDocument::class)]
     private Collection $documentCategorieDocuments;
 
+    #[ORM\Column(nullable: true)]
+    private ?float $nbLecture = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $nbTelechargement = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $tailleFichier = null;
+
     public function __construct()
     {
         $this->documentCategorieDocuments = new ArrayCollection();
@@ -184,6 +193,42 @@ class Document
                 $documentCategorieDocument->setDocument(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getNbLecture(): ?float
+    {
+        return $this->nbLecture;
+    }
+
+    public function setNbLecture(?float $nbLecture): static
+    {
+        $this->nbLecture = $nbLecture;
+
+        return $this;
+    }
+
+    public function getNbTelechargement(): ?float
+    {
+        return $this->nbTelechargement;
+    }
+
+    public function setNbTelechargement(?float $nbTelechargement): static
+    {
+        $this->nbTelechargement = $nbTelechargement;
+
+        return $this;
+    }
+
+    public function getTailleFichier(): ?float
+    {
+        return $this->tailleFichier;
+    }
+
+    public function setTailleFichier(?float $tailleFichier): static
+    {
+        $this->tailleFichier = $tailleFichier;
 
         return $this;
     }

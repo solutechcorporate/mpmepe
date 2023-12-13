@@ -14,6 +14,7 @@ use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use App\Utils\Traits\EntityTimestampTrait;
+use Doctrine\DBAL\Types\Types;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -30,14 +31,15 @@ use Doctrine\ORM\Mapping as ORM;
         new GetCollection(),
         new Post(
             validationContext: ['groups' => ['Default']],
+            inputFormats: ['multipart' => ['multipart/form-data']],
             security: "is_granted('ROLE_ADMIN')"
         ),
-        new Put(
-            security: "is_granted('ROLE_ADMIN')"
-        ),
-        new Patch(
-            security: "is_granted('ROLE_ADMIN')"
-        ),
+//        new Put(
+//            security: "is_granted('ROLE_ADMIN')"
+//        ),
+//        new Patch(
+//            security: "is_granted('ROLE_ADMIN')"
+//        ),
         new Delete(
             security: "is_granted('ROLE_ADMIN')"
         )
@@ -64,6 +66,12 @@ class Menu
 
     #[ORM\Column(nullable: true)]
     private ?int $nbLiaison = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $description = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $imageCodeFichier = null;
 
     public function __construct()
     {
@@ -139,6 +147,30 @@ class Menu
     public function setNbLiaison(?int $nbLiaison): static
     {
         $this->nbLiaison = $nbLiaison;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): static
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getImageCodeFichier(): ?string
+    {
+        return $this->imageCodeFichier;
+    }
+
+    public function setImageCodeFichier(?string $imageCodeFichier): static
+    {
+        $this->imageCodeFichier = $imageCodeFichier;
 
         return $this;
     }
