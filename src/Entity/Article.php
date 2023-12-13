@@ -25,22 +25,19 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
     normalizationContext: ['groups' => ['read:Article','read:Entity']],
     denormalizationContext: ['groups' => ['write:Article','write:Entity']],
     operations: [
-        new Get(
-        
-        ),
-        new GetCollection(
-        ),
+        new Get(),
+        new GetCollection(),
         new Post(
             validationContext: ['groups' => ['Default']],
             inputFormats: ['multipart' => ['multipart/form-data']],
             security: "is_granted('ROLE_ADMIN')"
         ),
-        new Put(
-            security: "is_granted('ROLE_ADMIN')"
-        ),
-        new Patch(
-            security: "is_granted('ROLE_ADMIN')"
-        ),
+//        new Put(
+//            security: "is_granted('ROLE_ADMIN')"
+//        ),
+//        new Patch(
+//            security: "is_granted('ROLE_ADMIN')"
+//        ),
         new Delete(
             security: "is_granted('ROLE_ADMIN')"
         )

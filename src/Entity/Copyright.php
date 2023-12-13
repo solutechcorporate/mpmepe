@@ -25,15 +25,10 @@ use Doctrine\ORM\Mapping as ORM;
     normalizationContext: ['groups' => ['read:Copyright','read:Entity']],
     denormalizationContext: ['groups' => ['write:Copyright','write:Entity']],
     operations: [
-        new Get(
-            security: "is_granted('ROLE_ADMIN')"
-        ),
-        new GetCollection(
-            security: "is_granted('ROLE_ADMIN')"
-        ),
+        new Get(),
+        new GetCollection(),
         new Post(
             validationContext: ['groups' => ['Default']],
-            inputFormats: ['multipart' => ['multipart/form-data']],
             security: "is_granted('ROLE_ADMIN')"
         ),
         new Put(

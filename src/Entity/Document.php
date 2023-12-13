@@ -27,23 +27,19 @@ use Doctrine\ORM\Mapping as ORM;
     normalizationContext: ['groups' => ['read:Document','read:Entity']],
     denormalizationContext: ['groups' => ['write:Document','write:Entity']],
     operations: [
-        new Get(
-            security: "is_granted('ROLE_ADMIN')"
-        ),
-        new GetCollection(
-            security: "is_granted('ROLE_ADMIN')"
-        ),
+        new Get(),
+        new GetCollection(),
         new Post(
             validationContext: ['groups' => ['Default']],
             inputFormats: ['multipart' => ['multipart/form-data']],
             security: "is_granted('ROLE_ADMIN')"
         ),
-        new Put(
-            security: "is_granted('ROLE_ADMIN')"
-        ),
-        new Patch(
-            security: "is_granted('ROLE_ADMIN')"
-        ),
+//        new Put(
+//            security: "is_granted('ROLE_ADMIN')"
+//        ),
+//        new Patch(
+//            security: "is_granted('ROLE_ADMIN')"
+//        ),
         new Delete(
             security: "is_granted('ROLE_ADMIN')"
         )

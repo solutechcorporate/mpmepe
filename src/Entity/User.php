@@ -40,14 +40,13 @@ use Symfony\Component\Security\Core\User\UserInterface;
         new Post(
             validationContext: ['groups' => ['Default']],
             inputFormats: ['multipart' => ['multipart/form-data']],
-            security: "is_granted('ROLE_ADMIN')"
         ),
-        new Put(
-            security: "is_granted('ROLE_ADMIN')"
-        ),
-        new Patch(
-            security: "is_granted('ROLE_ADMIN')"
-        ),
+//        new Put(
+//            security: "is_granted('ROLE_ADMIN')"
+//        ),
+//        new Patch(
+//            security: "is_granted('ROLE_ADMIN')"
+//        ),
         new Delete(
             security: "is_granted('ROLE_ADMIN')"
         )
