@@ -1,0 +1,200 @@
+Liste des principaux types de champs Symfony utilisés dans un projet
+
+->add('exemple', TextType::class, [
+    'label' => "Exemple (*)",
+    'required' => true,
+    'mapped' => false,
+    'attr' => [
+        'class' => "form-control",
+        'placeholder' => "",
+    ],
+])
+
+->add('telephone', TelType::class, [
+    'label' => "Numéro de téléphone (*)",
+    'required' => true,
+    'mapped' => false,
+    'attr' => [
+        'class' => "form-control",
+        'placeholder' => "",
+    ],
+])
+
+->add('email', EmailType::class, [
+    'label' => "E-mail",
+    'required' => true,
+    'mapped' => false,
+    'attr' => [
+        'class' => "form-control",
+        'placeholder' => "E-mail",
+    ],
+    'constraints' => [
+        new NotBlank([
+            'message' => "Veuillez saisir votre e-mail",
+        ]),
+    ],
+])
+
+->add('budget', NumberType::class, [
+    'label' => "Coût du bien (FCFA)",
+    'required' => false,
+    'mapped' => false,
+    'html5' => true,
+    'attr' => [
+        'class' => "form-control",
+        'min' => "0",
+        'placeholder' => "",
+    ],
+])
+
+->add('detail', TextareaType::class, [
+    'label' => "Commentaires",
+    'required' => false,
+    'mapped' => false,
+    'attr' => [
+        'placeholder' => "Vous pouvez nous laisser vos commentaires ici",
+        'rows' => "3",
+        'style' => "width: 100%;",
+        'class' => "form-control",
+    ],
+    'label_attr' => [
+        'style' => "display: block;",
+    ],
+])
+
+->add('description', CKEditorType::class, [
+    'label' => 'Description (*)',
+    'required' => true,
+    'attr' => [
+        'placeholder' => 'Plus de détails (caractéristiques du bien, ...)',
+    ],
+    'config' => [
+        'uiColor' => '#ffffff',
+        'language' => 'fr',
+        'input_sync' => true,
+        'toolbar' => 'basic',
+        'height' => 140,
+        'removeButtons' => 'About',
+    ]
+])
+
+->add('dateHeure', DateType::class, [
+    'label' => "Date et heure (*)",
+    'required' => true,
+    'mapped' => false,
+    'widget' => "single_text",
+    'html5' => false,
+    'attr' => [
+        'class' => "flatpicker",
+    ],
+    'label_attr' => [
+            'style' => "display: block;",
+    ],
+    'format' => "yyyy-MM-dd HH:mm",
+])
+
+->add('standing', EntityType::class, [
+    'class' => Standing::class,
+    'query_builder' => function (EntityRepository $er) {
+        return $er->createQueryBuilder("s")
+            ->orderBy("s.libelle", "ASC");
+    },
+    'choice_label' => "libelle",
+    'expanded' => false,
+    'multiple' => false,
+    'label' => "Standing",
+    'required' => false,
+    'mapped' => false,
+    'placeholder' => "-- Sélectionner --",
+    'attr' => [
+        'class' => "form-control select2",
+        'style' => "display: block; width: 100%;",
+    ]
+])
+
+->add('categorie', ChoiceType::class, [
+    'choices' => [
+        "A louer" => "a_louer",
+        "A vendre" => "a_vendre",
+    ],
+    'label' => "Catégorie (*)",
+    'required' => true,
+    'expanded' => true,
+    'multiple' => false,
+    'placeholder' => false,
+    'mapped' => false,
+    'attr' => [
+        'class' => "select2",
+    ],
+    'label_attr' => [
+       'style' => "display: block;",
+    ]
+])
+
+->add('password', RepeatedType::class, [
+    'type' => PasswordType::class,
+    'invalid_message' => "Les mots de passe ne correspondent pas.",
+    'required' => true,
+    'first_options'  => [
+        'label' => "Mot de passe (*)",
+        'attr' => [
+            'placeholder' => "Mot de passe (*)",
+            'class' => "form-control",
+            'autocomplete' => "",
+        ],
+        'constraints' => [
+            new NotBlank([
+                'message' => "Veuillez saisir votre mot de passe",
+            ]),
+            new Length([
+                'min' => 6,
+                'minMessage' => "Votre mot de passe doit avoir au moins {{ limit }} caractères",
+                // max length allowed by Symfony for security reasons
+                'max' => 4096,
+            ]),
+        ],
+    ],
+    'second_options' => [
+        'label' => "Répéter votre mot de passe (*)",
+        'attr' => [
+            'placeholder' => "Répéter votre mot de passe (*)",
+            'class' => "form-control",
+            'autocomplete' => "",
+        ]
+    ],
+    'mapped' => false,
+])
+
+->add('files', FileType::class, [
+    'label' => "Sélectionner vos images",
+    'mapped' => false,
+    'required' => false,
+    'multiple' => true,
+    'attr' => [
+        'class' => "form-control",
+        'label' => "Déposez vos fichiers ici",
+        'help' => "Ou cliquez pour les téléverser",
+        'is' => "drop-files",
+        'accept' => "image/*",
+    ],
+//                'constraints' => [
+//                    new File([
+//                        'maxSize' => "5120k", // 5 Mo
+//                        'mimeTypes' => [
+//                            "image/gif",
+//                            "image/jpeg",
+//                            "image/png",
+//                            "image/svg+xml",
+//                            "application/pdf",
+//                            "application/msword",
+//                            "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+//                            "video/x-msvideo",
+//                            "video/mpeg",
+//                            "video/webm",
+//                            "video/mp4",
+//                        ],
+//                        'mimeTypesMessage' => "Veuillez choisir des fichiers dont la taille de chacun d'eux ne dépasse pas 5 Mo",
+//                    ])
+//                ],
+])
+

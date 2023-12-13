@@ -1,0 +1,30 @@
+<h1 style="text-align: center;">Message envoyé depuis IMOFRI</h1>
+
+<p style="font-size: 20px;">Voici ci-dessous les informations envoyées :</p>
+
+<table class="table table-bordered table-striped table-responsive-sm" style="width: 100%;">
+    <tbody>
+        <tr>
+            <th>Mail envoyé le</th>
+            <td>{{ 'now'|date('d/m/Y à H:i:s') }}</td>
+        </tr>
+        <tr>
+            <th>Nom et prénoms</th>
+            <td>{{ nomPrenom }}</td>
+        </tr>
+        <tr>
+            <th>Numéro de téléphone</th>
+            <td>{{ telephone }}</td>
+        </tr>
+        <tr>
+            <th>E-mail</th>
+            <td>{{ emailForm }}</td>
+        </tr>
+        <tr>
+            <th>Message</th>
+            <td>{{ message }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<p>Cordialement!</p>

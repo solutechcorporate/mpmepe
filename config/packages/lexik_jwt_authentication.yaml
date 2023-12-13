@@ -1,0 +1,44 @@
+lexik_jwt_authentication:
+    secret_key: '%env(resolve:JWT_SECRET_KEY)%' # required for token creation
+    public_key: '%env(resolve:JWT_PUBLIC_KEY)%' # required for token verification
+    pass_phrase: '%env(JWT_PASSPHRASE)%' # required for token creation
+    token_ttl: 604800 # in seconds, default is 3600 (1h)
+
+    # token extraction settings
+    token_extractors:
+        # look for a token as Authorization Header
+        authorization_header:
+            enabled: true
+            prefix: Bearer
+            name: Authorization
+
+        # check token in a cookie
+        cookie:
+            enabled: false
+            name: BEARER
+
+        # check token in query string parameter
+        query_parameter:
+            enabled: false
+            name: bearer
+
+        # check token in a cookie
+        split_cookie:
+            enabled: false
+            cookies:
+                - jwt_hp
+                - jwt_s     # la duree de vie du cookie de signature (0 pour créer des cookies de session)
+
+    # remove the token from the response body when using cookies
+    remove_token_from_body_when_cookies_used: true
+
+#    set_cookies:
+#        BEARER: ~
+#            lifetime: null (defaults to token ttl)
+#            samesite: lax
+#            path: /
+#            domain: null (null means automatically set by symfony)
+#            secure: true (default to true)
+#            httpOnly: true
+
+

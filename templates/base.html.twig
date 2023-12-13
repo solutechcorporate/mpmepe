@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="keywords" content="advanced custom search, agency, agent, business, clean, corporate, directory, google maps, homes, idx agent, listing properties, membership packages, property, real broker, real estate, real estate agent, real estate agency, realtor">
+        <meta name="description" content="Imofri - Plateforme immobilière">
+
+        <title>
+            {% block title %}Site web {% endblock %} | Imofri
+        </title>
+
+        {% block stylesheets %}
+            <style>
+                #parent {
+                    width: 50%;
+                    height: 100px;
+                    margin: 25vh auto;
+                    border: 8px solid #eee;
+                    border-radius: 8px;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                    align-items: center;
+                }
+
+                .lien {
+                    font-weight: bold;
+                    font-size: 20px;
+                    display: block;
+                    text-decoration: none;
+                    color: #34a853;
+                }
+
+                .lien:hover {
+                    text-decoration: underline;
+                    color: #1C86EE;
+                }
+            </style>
+        {% endblock %}
+    </head>
+    <body>
+        {% block body %}
+            <div id="parent">
+                <a href="/api" class="lien">
+                    Cliquer sur ce lien pour accéder à l'API
+                </a>
+            </div>
+        {% endblock %}
+
+        {% block javascripts %}
+        {% endblock %}
+    </body>
+</html>

@@ -1,0 +1,17 @@
+gesdinet_jwt_refresh_token:
+    manager_type: orm     # mongodb or orm
+    refresh_token_class: App\Entity\RefreshToken
+    user_identity_field: id
+    user_provider: security.user.provider.concrete.app_user_provider
+    ttl: 604800 # en secondes, equivaut a 1 semaine
+    ttl_update: false
+    single_use: true
+    return_expiration: true
+    cookie:
+        enabled: false
+        same_site: none                     # default value is lax
+        path: /                             # default value
+        domain: null                        # default value is null
+        http_only: true                     # default value
+        secure: true                        # default value
+        remove_token_from_body: true       # default value is true
