@@ -59,10 +59,6 @@ class Page
     #[ORM\Column(length: 255)]
     private ?string $titre = null;
 
-    #[ORM\ManyToOne(inversedBy: 'pages')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Header $header = null;
-
     #[ORM\OneToMany(mappedBy: 'page', targetEntity: PageHeader::class)]
     private Collection $pageHeaders;
 
@@ -99,18 +95,6 @@ class Page
     public function setTitre(string $titre): static
     {
         $this->titre = $titre;
-
-        return $this;
-    }
-
-    public function getHeader(): ?Header
-    {
-        return $this->header;
-    }
-
-    public function setHeader(?Header $header): static
-    {
-        $this->header = $header;
 
         return $this;
     }
