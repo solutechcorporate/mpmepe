@@ -108,9 +108,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     ])]
     private ?string $username = null;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Document::class)]
-    private Collection $documents;
-
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserRole::class)]
     private Collection $userRoles;
 
@@ -119,7 +116,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __construct()
     {
-        $this->documents = new ArrayCollection();
         $this->dateAjout = new \DateTimeImmutable();
         $this->dateModif = new \DateTime();
         $this->deleted = "0";
@@ -211,36 +207,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUsername(string $username): static
     {
         $this->username = $username;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Document>
-     */
-    public function getDocuments(): Collection
-    {
-        return $this->documents;
-    }
-
-    public function addDocument(Document $document): static
-    {
-        if (!$this->documents->contains($document)) {
-            $this->documents->add($document);
-            $document->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeDocument(Document $document): static
-    {
-        if ($this->documents->removeElement($document)) {
-            // set the owning side to null (unless already changed)
-            if ($document->getUser() === $this) {
-                $document->setUser(null);
-            }
-        }
 
         return $this;
     }
