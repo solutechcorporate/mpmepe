@@ -51,12 +51,24 @@ class Page
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups([
+        'read:Page',
+        'write:Page',
+    ])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $imagePath = null;
+    #[Groups([
+        'read:Page',
+        'write:Page',
+    ])]
+    private ?string $imageCodeFichier = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups([
+        'read:Page',
+        'write:Page',
+    ])]
     private ?string $titre = null;
 
     #[ORM\OneToMany(mappedBy: 'page', targetEntity: PageHeader::class)]
@@ -68,6 +80,9 @@ class Page
     public function __construct()
     {
         $this->pageHeaders = new ArrayCollection();
+        $this->dateAjout = new \DateTimeImmutable();
+        $this->dateModif = new \DateTime();
+        $this->deleted = "0";
     }
 
     public function getId(): ?int
@@ -75,14 +90,14 @@ class Page
         return $this->id;
     }
 
-    public function getImagePath(): ?string
+    public function getImageCodeFichier(): ?string
     {
-        return $this->imagePath;
+        return $this->imageCodeFichier;
     }
 
-    public function setImagePath(string $imagePath): static
+    public function setImageCodeFichier(string $imageCodeFichier): static
     {
-        $this->imagePath = $imagePath;
+        $this->imageCodeFichier = $imageCodeFichier;
 
         return $this;
     }

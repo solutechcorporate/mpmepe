@@ -93,6 +93,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $plainPassword = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups([
+        'read:User',
+        'write:User',
+    ])]
     private ?string $username = null;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Document::class)]
@@ -116,6 +120,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->articles = new ArrayCollection();
         $this->dateAjout = new \DateTimeImmutable();
         $this->dateModif = new \DateTime();
+        $this->deleted = "0";
         $this->userRoles = new ArrayCollection();
         $this->historiques = new ArrayCollection();
     }

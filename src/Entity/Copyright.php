@@ -49,12 +49,24 @@ class Copyright
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups([
+        'read:Copyright',
+        'write:Copyright',
+    ])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups([
+        'read:Copyright',
+        'write:Copyright',
+    ])]
     private ?string $texte = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups([
+        'read:Copyright',
+        'write:Copyright',
+    ])]
     private ?string $mentionLegale = null;
 
     public function getId(): ?int

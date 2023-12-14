@@ -49,13 +49,25 @@ class SousMenu
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups([
+        'read:SousMenu',
+        'write:SousMenu',
+    ])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups([
+        'read:SousMenu',
+        'write:SousMenu',
+    ])]
     private ?string $name = null;
 
     #[ORM\ManyToOne(inversedBy: 'sousMenus')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups([
+        'read:SousMenu',
+        'write:SousMenu',
+    ])]
     private ?Menu $menu = null;
 
     public function getId(): ?int

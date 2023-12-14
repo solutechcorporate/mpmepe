@@ -51,21 +51,45 @@ class Contact
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups([
+        'read:Contact',
+        'write:Contact',
+    ])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups([
+        'read:Contact',
+        'write:Contact',
+    ])]
     private ?string $nomPrenom = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups([
+        'read:Contact',
+        'write:Contact',
+    ])]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups([
+        'read:Contact',
+        'write:Contact',
+    ])]
     private ?string $phone = null;
 
     #[ORM\Column]
+    #[Groups([
+        'read:Contact',
+        'write:Contact',
+    ])]
     private ?string $objet = null;
 
     #[ORM\Column]
+    #[Groups([
+        'read:Contact',
+        'write:Contact',
+    ])]
     private ?string $message = null;
 
     #[ORM\Column(nullable: true)]
@@ -77,6 +101,9 @@ class Contact
     public function __construct()
     {
         $this->contactValeurDemandes = new ArrayCollection();
+        $this->dateAjout = new \DateTimeImmutable();
+        $this->dateModif = new \DateTime();
+        $this->deleted = "0";
     }
 
     public function getId(): ?int

@@ -60,21 +60,45 @@ class Files
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\Column(type: 'ulid', unique: true)]
     #[ORM\CustomIdGenerator(class: UlidGenerator::class)]
+    #[Groups([
+        'read:Files',
+        'write:Files',
+    ])]
     private ?Ulid $id = null;
 
     #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255)]
+    #[Groups([
+        'read:Files',
+        'write:Files',
+    ])]
     private string $filename;
 
     #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255)]
+    #[Groups([
+        'read:Files',
+        'write:Files',
+    ])]
     private string $type;
 
     #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255)]
+    #[Groups([
+        'read:Files',
+        'write:Files',
+    ])]
     private string $location;
 
     #[ORM\Column(type: \Doctrine\DBAL\Types\Types::INTEGER, length: 11)]
+    #[Groups([
+        'read:Files',
+        'write:Files',
+    ])]
     private int $size = 0;
 
     #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255)]
+    #[Groups([
+        'read:Files',
+        'write:Files',
+    ])]
     private string $referenceCode;
 
     #[ORM\Column(type: \Doctrine\DBAL\Types\Types::BOOLEAN, options: [

@@ -13,6 +13,7 @@ use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use App\Repository\ValeurDemandeRepository;
+use App\Utils\Traits\EntityTimestampTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -45,12 +46,22 @@ use Doctrine\ORM\Mapping as ORM;
 )]
 class ValeurDemande
 {
+    use EntityTimestampTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups([
+        'read:ValeurDemande',
+        'write:ValeurDemande',
+    ])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups([
+        'read:ValeurDemande',
+        'write:ValeurDemande',
+    ])]
     private ?string $optionValue = null;
 
     #[ORM\Column(nullable: true)]
@@ -58,6 +69,10 @@ class ValeurDemande
 
     #[ORM\ManyToOne(inversedBy: 'valeurDemandes')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups([
+        'read:ValeurDemande',
+        'write:ValeurDemande',
+    ])]
     private ?Demande $demande = null;
 
     #[ORM\OneToMany(mappedBy: 'valeurDemande', targetEntity: ContactValeurDemande::class)]
@@ -66,6 +81,9 @@ class ValeurDemande
     public function __construct()
     {
         $this->contactValeurDemandes = new ArrayCollection();
+        $this->dateAjout = new \DateTimeImmutable();
+        $this->dateModif = new \DateTime();
+        $this->deleted = "0";
     }
 
     public function getId(): ?int

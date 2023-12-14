@@ -51,9 +51,17 @@ class CategorieDocument
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups([
+        'read:CategorieDocument',
+        'write:CategorieDocument',
+    ])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups([
+        'read:CategorieDocument',
+        'write:CategorieDocument',
+    ])]
     private ?string $nom = null;
 
     #[ORM\Column(nullable: true)]
@@ -66,6 +74,7 @@ class CategorieDocument
     {
         $this->dateAjout = new \DateTimeImmutable();
         $this->dateModif = new \DateTime();
+        $this->deleted = "0";
         $this->documentCategorieDocuments = new ArrayCollection();
     }
 

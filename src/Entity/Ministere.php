@@ -52,38 +52,77 @@ class Ministere
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups([
+        'read:Ministere',
+        'write:Ministere',
+    ])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups([
+        'read:Ministere',
+        'write:Ministere',
+    ])]
     private ?string $logoCodeFichier = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups([
+        'read:Ministere',
+        'write:Ministere',
+    ])]
     private ?string $nomSite = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups([
+        'read:Ministere',
+        'write:Ministere',
+    ])]
     private ?string $adresse = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups([
+        'read:Ministere',
+        'write:Ministere',
+    ])]
     private ?float $longitude = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups([
+        'read:Ministere',
+        'write:Ministere',
+    ])]
     private ?float $latitude = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups([
+        'read:Ministere',
+        'write:Ministere',
+    ])]
     private ?string $phone = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups([
+        'read:Ministere',
+        'write:Ministere',
+    ])]
     private ?string $email = null;
 
     #[ORM\Column(nullable: true)]
     private ?int $nbLiaison = null;
 
     #[ORM\OneToMany(mappedBy: 'ministere', targetEntity: Dirigeant::class)]
+    #[Groups([
+        'read:Ministere',
+        'write:Ministere',
+    ])]
     private Collection $dirigeants;
 
     public function __construct()
     {
         $this->dirigeants = new ArrayCollection();
+        $this->dateAjout = new \DateTimeImmutable();
+        $this->dateModif = new \DateTime();
+        $this->deleted = "0";
     }
 
     public function getId(): ?int

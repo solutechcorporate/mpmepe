@@ -51,12 +51,24 @@ class Role
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups([
+        'read:Role',
+        'write:Role',
+    ])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups([
+        'read:Role',
+        'write:Role',
+    ])]
     private ?string $nom = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups([
+        'read:Role',
+        'write:Role',
+    ])]
     private ?string $description = null;
 
     #[ORM\Column(nullable: true)]
@@ -68,6 +80,9 @@ class Role
     public function __construct()
     {
         $this->userRoles = new ArrayCollection();
+        $this->dateAjout = new \DateTimeImmutable();
+        $this->dateModif = new \DateTime();
+        $this->deleted = "0";
     }
 
     public function getId(): ?int

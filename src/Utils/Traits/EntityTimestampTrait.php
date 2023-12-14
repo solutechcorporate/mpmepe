@@ -25,7 +25,7 @@ trait EntityTimestampTrait
     {
         $this->dateAjout = new \DateTimeImmutable();
         $this->dateModif = new \DateTime();
-        $this->deleted = false;
+        $this->deleted = "0";
     }
 
     public function getDateAjout(): ?\DateTimeImmutable

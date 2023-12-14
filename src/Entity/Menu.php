@@ -52,25 +52,49 @@ class Menu
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups([
+        'read:Menu',
+        'write:Menu',
+    ])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups([
+        'read:Menu',
+        'write:Menu',
+    ])]
     private ?string $name = null;
 
     #[ORM\ManyToOne(inversedBy: 'menus')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups([
+        'read:Menu',
+        'write:Menu',
+    ])]
     private ?Header $header = null;
 
     #[ORM\OneToMany(mappedBy: 'menu', targetEntity: SousMenu::class)]
+    #[Groups([
+        'read:Menu',
+        'write:Menu',
+    ])]
     private Collection $sousMenus;
 
     #[ORM\Column(nullable: true)]
     private ?int $nbLiaison = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups([
+        'read:Menu',
+        'write:Menu',
+    ])]
     private ?string $description = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups([
+        'read:Menu',
+        'write:Menu',
+    ])]
     private ?string $imageCodeFichier = null;
 
     public function __construct()
@@ -78,6 +102,7 @@ class Menu
         $this->sousMenus = new ArrayCollection();
         $this->dateAjout = new \DateTimeImmutable();
         $this->dateModif = new \DateTime();
+        $this->deleted = "0";
     }
 
     public function getId(): ?int

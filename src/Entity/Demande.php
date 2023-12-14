@@ -50,22 +50,34 @@ class Demande
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups([
+        'read:Demande',
+        'write:Demande',
+    ])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups([
+        'read:Demande',
+        'write:Demande',
+    ])]
     private ?string $name = null;
 
     #[ORM\Column(nullable: true)]
     private ?int $nbLiaison = null;
 
     #[ORM\OneToMany(mappedBy: 'demande', targetEntity: ValeurDemande::class)]
+    #[Groups([
+        'read:Demande',
+        'write:Demande',
+    ])]
     private Collection $valeurDemandes;
 
     public function __construct()
     {
-        $this->contacts = new ArrayCollection();
         $this->dateAjout = new \DateTimeImmutable();
         $this->dateModif = new \DateTime();
+        $this->deleted = "0";
         $this->valeurDemandes = new ArrayCollection();
     }
 

@@ -52,22 +52,46 @@ class Document
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups([
+        'read:Document',
+        'write:Document',
+    ])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups([
+        'read:Document',
+        'write:Document',
+    ])]
     private ?string $docCodeFichier = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups([
+        'read:Document',
+        'write:Document',
+    ])]
     private ?string $titre = null;
 
     #[ORM\Column]
+    #[Groups([
+        'read:Document',
+        'write:Document',
+    ])]
     private ?bool $visibility = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups([
+        'read:Document',
+        'write:Document',
+    ])]
     private ?\DateTimeInterface $publicationDate = null;
 
     #[ORM\ManyToOne(inversedBy: 'documents')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups([
+        'read:Document',
+        'write:Document',
+    ])]
     private ?User $user = null;
 
     #[ORM\Column(nullable: true)]
@@ -77,16 +101,31 @@ class Document
     private Collection $documentCategorieDocuments;
 
     #[ORM\Column(nullable: true)]
+    #[Groups([
+        'read:Document',
+        'write:Document',
+    ])]
     private ?float $nbLecture = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups([
+        'read:Document',
+        'write:Document',
+    ])]
     private ?float $nbTelechargement = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups([
+        'read:Document',
+        'write:Document',
+    ])]
     private ?float $tailleFichier = null;
 
     public function __construct()
     {
+        $this->dateAjout = new \DateTimeImmutable();
+        $this->dateModif = new \DateTime();
+        $this->deleted = "0";
         $this->documentCategorieDocuments = new ArrayCollection();
     }
 

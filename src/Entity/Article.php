@@ -53,67 +53,151 @@ class Article
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups([
+        'read:Article',
+        'write:Article',
+    ])]
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Groups([
+        'read:Article',
+        'write:Article',
+    ])]
     private ?string $titre = null;
 
     #[ORM\Column]
+    #[Groups([
+        'read:Article',
+        'write:Article',
+    ])]
     private ?string $contenu = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups([
+        'read:Article',
+        'write:Article',
+    ])]
     private ?string $imageReference = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups([
+        'read:Article',
+        'write:Article',
+    ])]
     private ?\DateTimeInterface $dateEvent = null;
 
     #[ORM\Column]
+    #[Groups([
+        'read:Article',
+        'write:Article',
+    ])]
     private ?bool $visibility = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups([
+        'read:Article',
+        'write:Article',
+    ])]
     private ?\DateTimeInterface $publicationDate = null;
 
     #[ORM\Column]
+    #[Groups([
+        'read:Article',
+        'write:Article',
+    ])]
     private ?bool $isMention = null;
 
     #[ORM\Column]
+    #[Groups([
+        'read:Article',
+        'write:Article',
+    ])]
     private ?bool $isFlashinfo = null;
 
     #[ORM\Column]
+    #[Groups([
+        'read:Article',
+        'write:Article',
+    ])]
     private ?int $category = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups([
+        'read:Article',
+        'write:Article',
+    ])]
     private ?string $tag1 = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups([
+        'read:Article',
+        'write:Article',
+    ])]
     private ?string $tag2 = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups([
+        'read:Article',
+        'write:Article',
+    ])]
     private ?string $tag3 = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups([
+        'read:Article',
+        'write:Article',
+    ])]
     private ?string $tag4 = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups([
+        'read:Article',
+        'write:Article',
+    ])]
     private ?string $tag5 = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups([
+        'read:Article',
+        'write:Article',
+    ])]
     private ?string $tag6 = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups([
+        'read:Article',
+        'write:Article',
+    ])]
     private ?string $tag7 = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups([
+        'read:Article',
+        'write:Article',
+    ])]
     private ?string $tag8 = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups([
+        'read:Article',
+        'write:Article',
+    ])]
     private ?string $tag9 = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups([
+        'read:Article',
+        'write:Article',
+    ])]
     private ?string $tag10 = null;
 
     #[ORM\ManyToOne(inversedBy: 'articles')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups([
+        'read:Article',
+        'write:Article',
+    ])]
     private ?User $user = null;
 
     #[ORM\Column(nullable: true)]

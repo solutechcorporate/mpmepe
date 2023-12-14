@@ -51,50 +51,103 @@ class Dirigeant
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups([
+        'read:Dirigeant',
+        'write:Dirigeant',
+    ])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups([
+        'read:Dirigeant',
+        'write:Dirigeant',
+    ])]
     private ?string $nomPrenoms = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups([
+        'read:Dirigeant',
+        'write:Dirigeant',
+    ])]
     private ?\DateTimeInterface $debutFonction = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups([
+        'read:Dirigeant',
+        'write:Dirigeant',
+    ])]
     private ?\DateTimeInterface $finFonction = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups([
+        'read:Dirigeant',
+        'write:Dirigeant',
+    ])]
     private ?string $biographie = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups([
+        'read:Dirigeant',
+        'write:Dirigeant',
+    ])]
     private ?string $lienDecret = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups([
+        'read:Dirigeant',
+        'write:Dirigeant',
+    ])]
     private ?string $intitule = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups([
+        'read:Dirigeant',
+        'write:Dirigeant',
+    ])]
     private ?bool $isMinistre = null;
 
     #[ORM\ManyToOne(inversedBy: 'dirigeants')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups([
+        'read:Dirigeant',
+        'write:Dirigeant',
+    ])]
     private ?Ministere $ministere = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups([
+        'read:Dirigeant',
+        'write:Dirigeant',
+    ])]
     private ?bool $isMinistreActuel = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups([
+        'read:Dirigeant',
+        'write:Dirigeant',
+    ])]
     private ?bool $isDirecteur = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups([
+        'read:Dirigeant',
+        'write:Dirigeant',
+    ])]
     private ?bool $isDirecteurActuel = null;
 
     #[ORM\ManyToOne(inversedBy: 'dirigeants')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups([
+        'read:Dirigeant',
+        'write:Dirigeant',
+    ])]
     private ?Direction $direction = null;
 
     public function __construct()
     {
         $this->dateAjout = new \DateTimeImmutable();
         $this->dateModif = new \DateTime();
+        $this->deleted = "0";
     }
 
     public function getId(): ?int

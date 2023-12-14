@@ -51,21 +51,45 @@ class Direction
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups([
+        'read:Direction',
+        'write:Direction',
+    ])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups([
+        'read:Direction',
+        'write:Direction',
+    ])]
     private ?string $libelle = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups([
+        'read:Direction',
+        'write:Direction',
+    ])]
     private ?string $sigle = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups([
+        'read:Direction',
+        'write:Direction',
+    ])]
     private ?string $phone = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups([
+        'read:Direction',
+        'write:Direction',
+    ])]
     private ?string $email = null;
 
     #[ORM\OneToMany(mappedBy: 'direction', targetEntity: Dirigeant::class)]
+    #[Groups([
+        'read:Direction',
+        'write:Direction',
+    ])]
     private Collection $dirigeants;
 
     #[ORM\Column(nullable: true)]
@@ -74,6 +98,9 @@ class Direction
     public function __construct()
     {
         $this->dirigeants = new ArrayCollection();
+        $this->dateAjout = new \DateTimeImmutable();
+        $this->dateModif = new \DateTime();
+        $this->deleted = "0";
     }
 
     public function getId(): ?int

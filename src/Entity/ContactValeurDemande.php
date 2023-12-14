@@ -13,6 +13,7 @@ use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use App\Repository\ContactValeurDemandeRepository;
+use App\Utils\Traits\EntityTimestampTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -43,17 +44,31 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 )]
 class ContactValeurDemande
 {
+    use EntityTimestampTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups([
+        'read:ContactValeurDemande',
+        'write:ContactValeurDemande',
+    ])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'contactValeurDemandes')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups([
+        'read:ContactValeurDemande',
+        'write:ContactValeurDemande',
+    ])]
     private ?Contact $contact = null;
 
     #[ORM\ManyToOne(inversedBy: 'contactValeurDemandes')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups([
+        'read:ContactValeurDemande',
+        'write:ContactValeurDemande',
+    ])]
     private ?ValeurDemande $valeurDemande = null;
 
     public function getId(): ?int

@@ -13,6 +13,7 @@ use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use App\Repository\UserRoleRepository;
+use App\Utils\Traits\EntityTimestampTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -43,17 +44,31 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 )]
 class UserRole
 {
+    use EntityTimestampTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups([
+        'read:UserRole',
+        'write:UserRole',
+    ])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'userRoles')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups([
+        'read:UserRole',
+        'write:UserRole',
+    ])]
     private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'userRoles')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups([
+        'read:UserRole',
+        'write:UserRole',
+    ])]
     private ?Role $role = null;
 
     public function getId(): ?int

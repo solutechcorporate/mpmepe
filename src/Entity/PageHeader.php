@@ -13,6 +13,7 @@ use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use App\Repository\PageHeaderRepository;
+use App\Utils\Traits\EntityTimestampTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -43,17 +44,31 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 )]
 class PageHeader
 {
+    use EntityTimestampTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups([
+        'read:PageHeader',
+        'write:PageHeader',
+    ])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'pageHeaders')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups([
+        'read:PageHeader',
+        'write:PageHeader',
+    ])]
     private ?Page $page = null;
 
     #[ORM\ManyToOne(inversedBy: 'pageHeaders')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups([
+        'read:PageHeader',
+        'write:PageHeader',
+    ])]
     private ?Header $header = null;
 
     public function getId(): ?int

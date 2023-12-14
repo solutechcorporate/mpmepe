@@ -50,27 +50,59 @@ class SocialNetwork
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups([
+        'read:SocialNetwork',
+        'write:SocialNetwork',
+    ])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups([
+        'read:SocialNetwork',
+        'write:SocialNetwork',
+    ])]
     private ?string $imageCodeFichier = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups([
+        'read:SocialNetwork',
+        'write:SocialNetwork',
+    ])]
     private ?string $nom = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups([
+        'read:SocialNetwork',
+        'write:SocialNetwork',
+    ])]
     private ?string $lien = null;
 
     #[ORM\Column]
+    #[Groups([
+        'read:SocialNetwork',
+        'write:SocialNetwork',
+    ])]
     private ?int $affichage = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups([
+        'read:SocialNetwork',
+        'write:SocialNetwork',
+    ])]
     private ?bool $headerIsSelect = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups([
+        'read:SocialNetwork',
+        'write:SocialNetwork',
+    ])]
     private ?bool $footerIsSelect = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups([
+        'read:SocialNetwork',
+        'write:SocialNetwork',
+    ])]
     private ?bool $contactIsSelect = null;
 
     public function getId(): ?int

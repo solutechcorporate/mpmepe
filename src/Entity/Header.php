@@ -51,21 +51,45 @@ class Header
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups([
+        'read:Header',
+        'write:Header',
+    ])]
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Groups([
+        'read:Header',
+        'write:Header',
+    ])]
     private ?int $position = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups([
+        'read:Header',
+        'write:Header',
+    ])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups([
+        'read:Header',
+        'write:Header',
+    ])]
     private ?string $affichage = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups([
+        'read:Header',
+        'write:Header',
+    ])]
     private ?string $slog = null;
 
     #[ORM\OneToMany(mappedBy: 'header', targetEntity: Menu::class)]
+    #[Groups([
+        'read:Header',
+        'write:Header',
+    ])]
     private Collection $menus;
 
     #[ORM\Column(nullable: true)]
@@ -79,6 +103,7 @@ class Header
         $this->menus = new ArrayCollection();
         $this->dateAjout = new \DateTimeImmutable();
         $this->dateModif = new \DateTime();
+        $this->deleted = "0";
         $this->pageHeaders = new ArrayCollection();
     }
 

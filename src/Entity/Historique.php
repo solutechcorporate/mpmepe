@@ -13,6 +13,7 @@ use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use App\Repository\HistoriqueRepository;
+use App\Utils\Traits\EntityTimestampTrait;
 use Doctrine\DBAL\Types\Types;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -47,22 +48,44 @@ use Doctrine\ORM\Mapping as ORM;
 )]
 class Historique
 {
+    use EntityTimestampTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups([
+        'read:Historique',
+        'write:Historique',
+    ])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups([
+        'read:Historique',
+        'write:Historique',
+    ])]
     private ?string $operation = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups([
+        'read:Historique',
+        'write:Historique',
+    ])]
     private ?string $nomTable = null;
 
     #[ORM\Column]
+    #[Groups([
+        'read:Historique',
+        'write:Historique',
+    ])]
     private ?int $idTable = null;
 
     #[ORM\ManyToOne(inversedBy: 'historiques')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups([
+        'read:Historique',
+        'write:Historique',
+    ])]
     private ?User $user = null;
 
     public function getId(): ?int
