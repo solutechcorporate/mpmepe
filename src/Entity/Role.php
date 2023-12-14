@@ -53,7 +53,7 @@ class Role
     #[ORM\Column]
     #[Groups([
         'read:Role',
-        'write:Role',
+        'read:UserRole',
     ])]
     private ?int $id = null;
 
@@ -61,6 +61,7 @@ class Role
     #[Groups([
         'read:Role',
         'write:Role',
+        'read:UserRole',
     ])]
     private ?string $nom = null;
 
@@ -68,6 +69,7 @@ class Role
     #[Groups([
         'read:Role',
         'write:Role',
+        'read:UserRole',
     ])]
     private ?string $description = null;
 

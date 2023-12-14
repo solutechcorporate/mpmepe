@@ -25,8 +25,12 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
     normalizationContext: ['groups' => ['read:UserRole','read:Entity']],
     denormalizationContext: ['groups' => ['write:UserRole','write:Entity']],
     operations: [
-        new Get(),
-        new GetCollection(),
+        new Get(
+            security: "is_granted('ROLE_ADMIN')"
+        ),
+        new GetCollection(
+            security: "is_granted('ROLE_ADMIN')"
+        ),
 //        new Post(
 //            validationContext: ['groups' => ['Default']],
 //            security: "is_granted('ROLE_ADMIN')"
@@ -51,7 +55,6 @@ class UserRole
     #[ORM\Column]
     #[Groups([
         'read:UserRole',
-        'write:UserRole',
     ])]
     private ?int $id = null;
 

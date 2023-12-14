@@ -54,7 +54,7 @@ class Menu
     #[ORM\Column]
     #[Groups([
         'read:Menu',
-        'write:Menu',
+        'read:Header',
     ])]
     private ?int $id = null;
 
@@ -62,6 +62,7 @@ class Menu
     #[Groups([
         'read:Menu',
         'write:Menu',
+        'read:Header',
     ])]
     private ?string $name = null;
 
@@ -76,7 +77,7 @@ class Menu
     #[ORM\OneToMany(mappedBy: 'menu', targetEntity: SousMenu::class)]
     #[Groups([
         'read:Menu',
-        'write:Menu',
+        'read:Header',
     ])]
     private Collection $sousMenus;
 
@@ -87,13 +88,14 @@ class Menu
     #[Groups([
         'read:Menu',
         'write:Menu',
+        'read:Header',
     ])]
     private ?string $description = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups([
         'read:Menu',
-        'write:Menu',
+        'read:Header',
     ])]
     private ?string $imageCodeFichier = null;
 

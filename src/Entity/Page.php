@@ -53,14 +53,14 @@ class Page
     #[ORM\Column]
     #[Groups([
         'read:Page',
-        'write:Page',
+        'read:PageHeader',
     ])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
     #[Groups([
         'read:Page',
-        'write:Page',
+        'read:PageHeader',
     ])]
     private ?string $imageCodeFichier = null;
 
@@ -68,6 +68,7 @@ class Page
     #[Groups([
         'read:Page',
         'write:Page',
+        'read:PageHeader',
     ])]
     private ?string $titre = null;
 

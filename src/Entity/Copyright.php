@@ -51,7 +51,6 @@ class Copyright
     #[ORM\Column]
     #[Groups([
         'read:Copyright',
-        'write:Copyright',
     ])]
     private ?int $id = null;
 

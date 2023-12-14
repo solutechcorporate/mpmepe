@@ -51,7 +51,6 @@ class DocumentCategorieDocument
     #[ORM\Column]
     #[Groups([
         'read:DocumentCategorieDocument',
-        'write:DocumentCategorieDocument',
     ])]
     private ?int $id = null;
 

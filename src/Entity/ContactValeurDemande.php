@@ -51,7 +51,6 @@ class ContactValeurDemande
     #[ORM\Column]
     #[Groups([
         'read:ContactValeurDemande',
-        'write:ContactValeurDemande',
     ])]
     private ?int $id = null;
 

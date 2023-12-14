@@ -55,38 +55,26 @@ class Historique
     #[ORM\Column]
     #[Groups([
         'read:Historique',
-        'write:Historique',
     ])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::TEXT)]
     #[Groups([
         'read:Historique',
-        'write:Historique',
     ])]
     private ?string $operation = null;
 
     #[ORM\Column(length: 255)]
     #[Groups([
         'read:Historique',
-        'write:Historique',
     ])]
     private ?string $nomTable = null;
 
     #[ORM\Column]
     #[Groups([
         'read:Historique',
-        'write:Historique',
     ])]
     private ?int $idTable = null;
-
-    #[ORM\ManyToOne(inversedBy: 'historiques')]
-    #[ORM\JoinColumn(nullable: false)]
-    #[Groups([
-        'read:Historique',
-        'write:Historique',
-    ])]
-    private ?User $user = null;
 
     public function getId(): ?int
     {
@@ -129,15 +117,4 @@ class Historique
         return $this;
     }
 
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): static
-    {
-        $this->user = $user;
-
-        return $this;
-    }
 }

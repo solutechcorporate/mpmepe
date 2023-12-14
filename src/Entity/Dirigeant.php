@@ -53,7 +53,8 @@ class Dirigeant
     #[ORM\Column]
     #[Groups([
         'read:Dirigeant',
-        'write:Dirigeant',
+        'read:Direction',
+        'read:Ministere',
     ])]
     private ?int $id = null;
 
@@ -61,6 +62,8 @@ class Dirigeant
     #[Groups([
         'read:Dirigeant',
         'write:Dirigeant',
+        'read:Direction',
+        'read:Ministere',
     ])]
     private ?string $nomPrenoms = null;
 
@@ -68,6 +71,8 @@ class Dirigeant
     #[Groups([
         'read:Dirigeant',
         'write:Dirigeant',
+        'read:Direction',
+        'read:Ministere',
     ])]
     private ?\DateTimeInterface $debutFonction = null;
 
@@ -75,6 +80,8 @@ class Dirigeant
     #[Groups([
         'read:Dirigeant',
         'write:Dirigeant',
+        'read:Direction',
+        'read:Ministere',
     ])]
     private ?\DateTimeInterface $finFonction = null;
 
@@ -82,6 +89,8 @@ class Dirigeant
     #[Groups([
         'read:Dirigeant',
         'write:Dirigeant',
+        'read:Direction',
+        'read:Ministere',
     ])]
     private ?string $biographie = null;
 
@@ -89,6 +98,8 @@ class Dirigeant
     #[Groups([
         'read:Dirigeant',
         'write:Dirigeant',
+        'read:Direction',
+        'read:Ministere',
     ])]
     private ?string $lienDecret = null;
 
@@ -96,6 +107,8 @@ class Dirigeant
     #[Groups([
         'read:Dirigeant',
         'write:Dirigeant',
+        'read:Direction',
+        'read:Ministere',
     ])]
     private ?string $intitule = null;
 
@@ -103,6 +116,8 @@ class Dirigeant
     #[Groups([
         'read:Dirigeant',
         'write:Dirigeant',
+        'read:Direction',
+        'read:Ministere',
     ])]
     private ?bool $isMinistre = null;
 
@@ -111,6 +126,7 @@ class Dirigeant
     #[Groups([
         'read:Dirigeant',
         'write:Dirigeant',
+        'read:Direction',
     ])]
     private ?Ministere $ministere = null;
 
@@ -118,6 +134,8 @@ class Dirigeant
     #[Groups([
         'read:Dirigeant',
         'write:Dirigeant',
+        'read:Direction',
+        'read:Ministere',
     ])]
     private ?bool $isMinistreActuel = null;
 
@@ -125,6 +143,8 @@ class Dirigeant
     #[Groups([
         'read:Dirigeant',
         'write:Dirigeant',
+        'read:Direction',
+        'read:Ministere',
     ])]
     private ?bool $isDirecteur = null;
 
@@ -132,6 +152,8 @@ class Dirigeant
     #[Groups([
         'read:Dirigeant',
         'write:Dirigeant',
+        'read:Direction',
+        'read:Ministere',
     ])]
     private ?bool $isDirecteurActuel = null;
 
@@ -140,6 +162,7 @@ class Dirigeant
     #[Groups([
         'read:Dirigeant',
         'write:Dirigeant',
+        'read:Ministere',
     ])]
     private ?Direction $direction = null;
 

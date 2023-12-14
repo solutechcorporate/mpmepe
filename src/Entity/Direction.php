@@ -53,7 +53,8 @@ class Direction
     #[ORM\Column]
     #[Groups([
         'read:Direction',
-        'write:Direction',
+        'read:Dirigeant',
+        'read:Ministere',
     ])]
     private ?int $id = null;
 
@@ -61,6 +62,8 @@ class Direction
     #[Groups([
         'read:Direction',
         'write:Direction',
+        'read:Dirigeant',
+        'read:Ministere',
     ])]
     private ?string $libelle = null;
 
@@ -68,6 +71,8 @@ class Direction
     #[Groups([
         'read:Direction',
         'write:Direction',
+        'read:Dirigeant',
+        'read:Ministere',
     ])]
     private ?string $sigle = null;
 
@@ -75,6 +80,8 @@ class Direction
     #[Groups([
         'read:Direction',
         'write:Direction',
+        'read:Dirigeant',
+        'read:Ministere',
     ])]
     private ?string $phone = null;
 
@@ -82,13 +89,14 @@ class Direction
     #[Groups([
         'read:Direction',
         'write:Direction',
+        'read:Dirigeant',
+        'read:Ministere',
     ])]
     private ?string $email = null;
 
     #[ORM\OneToMany(mappedBy: 'direction', targetEntity: Dirigeant::class)]
     #[Groups([
         'read:Direction',
-        'write:Direction',
     ])]
     private Collection $dirigeants;
 

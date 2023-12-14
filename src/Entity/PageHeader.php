@@ -51,7 +51,6 @@ class PageHeader
     #[ORM\Column]
     #[Groups([
         'read:PageHeader',
-        'write:PageHeader',
     ])]
     private ?int $id = null;
 

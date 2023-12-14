@@ -62,7 +62,6 @@ class Files
     #[ORM\CustomIdGenerator(class: UlidGenerator::class)]
     #[Groups([
         'read:Files',
-        'write:Files',
     ])]
     private ?Ulid $id = null;
 
@@ -76,28 +75,24 @@ class Files
     #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255)]
     #[Groups([
         'read:Files',
-        'write:Files',
     ])]
     private string $type;
 
     #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255)]
     #[Groups([
         'read:Files',
-        'write:Files',
     ])]
     private string $location;
 
     #[ORM\Column(type: \Doctrine\DBAL\Types\Types::INTEGER, length: 11)]
     #[Groups([
         'read:Files',
-        'write:Files',
     ])]
     private int $size = 0;
 
     #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255)]
     #[Groups([
         'read:Files',
-        'write:Files',
     ])]
     private string $referenceCode;
 
@@ -105,6 +100,11 @@ class Files
         'default' => false,
     ])]
     private string|bool|null $temp = false;
+
+    public function getId(): ?Ulid
+    {
+        return $this->id;
+    }
 
     public function getFilename(): ?string
     {
@@ -178,8 +178,4 @@ class Files
         return $this;
     }
 
-    public function getId(): ?\Symfony\Component\Uid\Ulid
-    {
-        return $this->id;
-    }
 }

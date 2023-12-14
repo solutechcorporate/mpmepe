@@ -54,14 +54,16 @@ class Ministere
     #[ORM\Column]
     #[Groups([
         'read:Ministere',
-        'write:Ministere',
+        'read:Direction',
+        'read:Dirigeant',
     ])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups([
         'read:Ministere',
-        'write:Ministere',
+        'read:Direction',
+        'read:Dirigeant',
     ])]
     private ?string $logoCodeFichier = null;
 
@@ -69,6 +71,8 @@ class Ministere
     #[Groups([
         'read:Ministere',
         'write:Ministere',
+        'read:Direction',
+        'read:Dirigeant',
     ])]
     private ?string $nomSite = null;
 
@@ -76,6 +80,8 @@ class Ministere
     #[Groups([
         'read:Ministere',
         'write:Ministere',
+        'read:Direction',
+        'read:Dirigeant',
     ])]
     private ?string $adresse = null;
 
@@ -83,6 +89,8 @@ class Ministere
     #[Groups([
         'read:Ministere',
         'write:Ministere',
+        'read:Direction',
+        'read:Dirigeant',
     ])]
     private ?float $longitude = null;
 
@@ -90,6 +98,8 @@ class Ministere
     #[Groups([
         'read:Ministere',
         'write:Ministere',
+        'read:Direction',
+        'read:Dirigeant',
     ])]
     private ?float $latitude = null;
 
@@ -97,6 +107,8 @@ class Ministere
     #[Groups([
         'read:Ministere',
         'write:Ministere',
+        'read:Direction',
+        'read:Dirigeant',
     ])]
     private ?string $phone = null;
 
@@ -104,6 +116,8 @@ class Ministere
     #[Groups([
         'read:Ministere',
         'write:Ministere',
+        'read:Direction',
+        'read:Dirigeant',
     ])]
     private ?string $email = null;
 
@@ -113,7 +127,6 @@ class Ministere
     #[ORM\OneToMany(mappedBy: 'ministere', targetEntity: Dirigeant::class)]
     #[Groups([
         'read:Ministere',
-        'write:Ministere',
     ])]
     private Collection $dirigeants;
 

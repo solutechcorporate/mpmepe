@@ -53,7 +53,7 @@ class Contact
     #[ORM\Column]
     #[Groups([
         'read:Contact',
-        'write:Contact',
+        'read:ContactValeurDemande'
     ])]
     private ?int $id = null;
 
@@ -61,6 +61,7 @@ class Contact
     #[Groups([
         'read:Contact',
         'write:Contact',
+        'read:ContactValeurDemande'
     ])]
     private ?string $nomPrenom = null;
 
@@ -68,6 +69,7 @@ class Contact
     #[Groups([
         'read:Contact',
         'write:Contact',
+        'read:ContactValeurDemande'
     ])]
     private ?string $email = null;
 
@@ -75,6 +77,7 @@ class Contact
     #[Groups([
         'read:Contact',
         'write:Contact',
+        'read:ContactValeurDemande'
     ])]
     private ?string $phone = null;
 
@@ -82,6 +85,7 @@ class Contact
     #[Groups([
         'read:Contact',
         'write:Contact',
+        'read:ContactValeurDemande'
     ])]
     private ?string $objet = null;
 
@@ -89,6 +93,7 @@ class Contact
     #[Groups([
         'read:Contact',
         'write:Contact',
+        'read:ContactValeurDemande'
     ])]
     private ?string $message = null;
 

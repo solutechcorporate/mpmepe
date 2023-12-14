@@ -52,7 +52,7 @@ class Demande
     #[ORM\Column]
     #[Groups([
         'read:Demande',
-        'write:Demande',
+        'read:ContactValeurDemande'
     ])]
     private ?int $id = null;
 
@@ -60,6 +60,7 @@ class Demande
     #[Groups([
         'read:Demande',
         'write:Demande',
+        'read:ContactValeurDemande'
     ])]
     private ?string $name = null;
 
@@ -69,7 +70,6 @@ class Demande
     #[ORM\OneToMany(mappedBy: 'demande', targetEntity: ValeurDemande::class)]
     #[Groups([
         'read:Demande',
-        'write:Demande',
     ])]
     private Collection $valeurDemandes;
 

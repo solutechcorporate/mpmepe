@@ -53,7 +53,8 @@ class ValeurDemande
     #[ORM\Column]
     #[Groups([
         'read:ValeurDemande',
-        'write:ValeurDemande',
+        'read:ContactValeurDemande',
+        'read:Demande',
     ])]
     private ?int $id = null;
 
@@ -61,6 +62,8 @@ class ValeurDemande
     #[Groups([
         'read:ValeurDemande',
         'write:ValeurDemande',
+        'read:ContactValeurDemande',
+        'read:Demande',
     ])]
     private ?string $optionValue = null;
 
@@ -72,6 +75,7 @@ class ValeurDemande
     #[Groups([
         'read:ValeurDemande',
         'write:ValeurDemande',
+        'read:ContactValeurDemande'
     ])]
     private ?Demande $demande = null;
 

@@ -54,14 +54,14 @@ class Document
     #[ORM\Column]
     #[Groups([
         'read:Document',
-        'write:Document',
+        'read:DocumentCategorieDocument',
     ])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups([
         'read:Document',
-        'write:Document',
+        'read:DocumentCategorieDocument',
     ])]
     private ?string $docCodeFichier = null;
 
@@ -69,6 +69,7 @@ class Document
     #[Groups([
         'read:Document',
         'write:Document',
+        'read:DocumentCategorieDocument',
     ])]
     private ?string $titre = null;
 
@@ -76,6 +77,7 @@ class Document
     #[Groups([
         'read:Document',
         'write:Document',
+        'read:DocumentCategorieDocument',
     ])]
     private ?bool $visibility = null;
 
@@ -83,16 +85,9 @@ class Document
     #[Groups([
         'read:Document',
         'write:Document',
+        'read:DocumentCategorieDocument',
     ])]
     private ?\DateTimeInterface $publicationDate = null;
-
-    #[ORM\ManyToOne(inversedBy: 'documents')]
-    #[ORM\JoinColumn(nullable: false)]
-    #[Groups([
-        'read:Document',
-        'write:Document',
-    ])]
-    private ?User $user = null;
 
     #[ORM\Column(nullable: true)]
     private ?int $nbLiaison = null;
@@ -104,6 +99,7 @@ class Document
     #[Groups([
         'read:Document',
         'write:Document',
+        'read:DocumentCategorieDocument',
     ])]
     private ?float $nbLecture = null;
 
@@ -111,13 +107,14 @@ class Document
     #[Groups([
         'read:Document',
         'write:Document',
+        'read:DocumentCategorieDocument',
     ])]
     private ?float $nbTelechargement = null;
 
     #[ORM\Column(nullable: true)]
     #[Groups([
         'read:Document',
-        'write:Document',
+        'read:DocumentCategorieDocument',
     ])]
     private ?float $tailleFichier = null;
 
@@ -178,18 +175,6 @@ class Document
     public function setPublicationDate(\DateTimeInterface $publicationDate): static
     {
         $this->publicationDate = $publicationDate;
-
-        return $this;
-    }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): static
-    {
-        $this->user = $user;
 
         return $this;
     }

@@ -53,7 +53,7 @@ class CategorieDocument
     #[ORM\Column]
     #[Groups([
         'read:CategorieDocument',
-        'write:CategorieDocument',
+        'read:DocumentCategorieDocument',
     ])]
     private ?int $id = null;
 
@@ -61,6 +61,7 @@ class CategorieDocument
     #[Groups([
         'read:CategorieDocument',
         'write:CategorieDocument',
+        'read:DocumentCategorieDocument',
     ])]
     private ?string $nom = null;
 

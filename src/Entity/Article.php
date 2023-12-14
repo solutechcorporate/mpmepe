@@ -2,6 +2,9 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use App\InterfacePersonnalise\UserOwnedInterface;
 use App\Repository\ArticleRepository;
 use ApiPlatform\Doctrine\Orm\Filter\DateFilter;
 use ApiPlatform\Metadata\ApiFilter;
@@ -46,7 +49,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 #[UniqueEntity(
     fields: 'titre'
 )]
-class Article
+#[ApiFilter(OrderFilter::class, properties: ['titre'])]
+#[ApiFilter(SearchFilter::class, properties: ['deleted' => 'exact', 'userAjout' => 'exact'])]
+class Article // implements UserOwnedInterface
 {
     use EntityTimestampTrait;
 
@@ -55,7 +60,6 @@ class Article
     #[ORM\Column]
     #[Groups([
         'read:Article',
-        'write:Article',
     ])]
     private ?int $id = null;
 
@@ -76,9 +80,8 @@ class Article
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups([
         'read:Article',
-        'write:Article',
     ])]
-    private ?string $imageReference = null;
+    private ?string $imageCodeFichier = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     #[Groups([
@@ -192,14 +195,6 @@ class Article
     ])]
     private ?string $tag10 = null;
 
-    #[ORM\ManyToOne(inversedBy: 'articles')]
-    #[ORM\JoinColumn(nullable: false)]
-    #[Groups([
-        'read:Article',
-        'write:Article',
-    ])]
-    private ?User $user = null;
-
     #[ORM\Column(nullable: true)]
     private ?int $nbLiaison = null;
 
@@ -232,14 +227,14 @@ class Article
         return $this;
     }
 
-    public function getImageReference(): ?string
+    public function getImageCodeFichier(): ?string
     {
-        return $this->imageReference;
+        return $this->imageCodeFichier;
     }
 
-    public function setImageReference(string $imageReference): static
+    public function setImageCodeFichier(string $imageCodeFichier): static
     {
-        $this->imageReference = $imageReference;
+        $this->imageCodeFichier = $imageCodeFichier;
 
         return $this;
     }
@@ -432,18 +427,6 @@ class Article
     public function setTag10(?string $tag10): static
     {
         $this->tag10 = $tag10;
-
-        return $this;
-    }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): static
-    {
-        $this->user = $user;
 
         return $this;
     }

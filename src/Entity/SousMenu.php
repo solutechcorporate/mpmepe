@@ -51,7 +51,8 @@ class SousMenu
     #[ORM\Column]
     #[Groups([
         'read:SousMenu',
-        'write:SousMenu',
+        'read:Header',
+        'read:Menu',
     ])]
     private ?int $id = null;
 
@@ -59,6 +60,8 @@ class SousMenu
     #[Groups([
         'read:SousMenu',
         'write:SousMenu',
+        'read:Header',
+        'read:Menu',
     ])]
     private ?string $name = null;
 

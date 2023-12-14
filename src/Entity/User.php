@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\UserRepository;
 use ApiPlatform\Doctrine\Orm\Filter\DateFilter;
 use ApiPlatform\Metadata\ApiFilter;
@@ -53,6 +55,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
     ]
 )]
 #[UniqueEntity('email')]
+#[ApiFilter(DateFilter::class, properties: ['dateAjout', 'dateModif'])]
+#[ApiFilter(OrderFilter::class, properties: ['id', 'username'])]
+#[ApiFilter(SearchFilter::class, properties: ['deleted' => 'exact'])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     use EntityTimestampTrait;
@@ -61,7 +66,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\GeneratedValue]
     #[ORM\Column]
     #[Groups([
-        'read:User'
+        'read:User',
+        'read:UserRole',
     ])]
     private ?int $id = null;
 
@@ -69,6 +75,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups([
         'read:User',
         'write:User',
+        'read:UserRole',
     ])]
     #[Assert\NotBlank]
     #[Assert\Email]
@@ -78,6 +85,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'json')]
     #[Groups([
         'read:User',
+        'read:UserRole',
     ])]
     #[Assert\NotBlank]
     private array $roles = [];
@@ -96,14 +104,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups([
         'read:User',
         'write:User',
+        'read:UserRole',
     ])]
     private ?string $username = null;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Document::class)]
     private Collection $documents;
-
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Article::class)]
-    private Collection $articles;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserRole::class)]
     private Collection $userRoles;
@@ -111,18 +117,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?int $nbLiaison = null;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Historique::class)]
-    private Collection $historiques;
-
     public function __construct()
     {
         $this->documents = new ArrayCollection();
-        $this->articles = new ArrayCollection();
         $this->dateAjout = new \DateTimeImmutable();
         $this->dateModif = new \DateTime();
         $this->deleted = "0";
         $this->userRoles = new ArrayCollection();
-        $this->historiques = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -245,36 +246,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, Article>
-     */
-    public function getArticles(): Collection
-    {
-        return $this->articles;
-    }
-
-    public function addArticle(Article $article): static
-    {
-        if (!$this->articles->contains($article)) {
-            $this->articles->add($article);
-            $article->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeArticle(Article $article): static
-    {
-        if ($this->articles->removeElement($article)) {
-            // set the owning side to null (unless already changed)
-            if ($article->getUser() === $this) {
-                $article->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, UserRole>
      */
     public function getUserRoles(): Collection
@@ -312,36 +283,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setNbLiaison(?int $nbLiaison): static
     {
         $this->nbLiaison = $nbLiaison;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Historique>
-     */
-    public function getHistoriques(): Collection
-    {
-        return $this->historiques;
-    }
-
-    public function addHistorique(Historique $historique): static
-    {
-        if (!$this->historiques->contains($historique)) {
-            $this->historiques->add($historique);
-            $historique->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeHistorique(Historique $historique): static
-    {
-        if ($this->historiques->removeElement($historique)) {
-            // set the owning side to null (unless already changed)
-            if ($historique->getUser() === $this) {
-                $historique->setUser(null);
-            }
-        }
 
         return $this;
     }

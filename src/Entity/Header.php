@@ -53,7 +53,7 @@ class Header
     #[ORM\Column]
     #[Groups([
         'read:Header',
-        'write:Header',
+        'read:PageHeader',
     ])]
     private ?int $id = null;
 
@@ -61,6 +61,7 @@ class Header
     #[Groups([
         'read:Header',
         'write:Header',
+        'read:PageHeader',
     ])]
     private ?int $position = null;
 
@@ -68,6 +69,7 @@ class Header
     #[Groups([
         'read:Header',
         'write:Header',
+        'read:PageHeader',
     ])]
     private ?string $name = null;
 
@@ -75,6 +77,7 @@ class Header
     #[Groups([
         'read:Header',
         'write:Header',
+        'read:PageHeader',
     ])]
     private ?string $affichage = null;
 
@@ -82,13 +85,13 @@ class Header
     #[Groups([
         'read:Header',
         'write:Header',
+        'read:PageHeader',
     ])]
     private ?string $slog = null;
 
     #[ORM\OneToMany(mappedBy: 'header', targetEntity: Menu::class)]
     #[Groups([
         'read:Header',
-        'write:Header',
     ])]
     private Collection $menus;
 

@@ -52,14 +52,12 @@ class SocialNetwork
     #[ORM\Column]
     #[Groups([
         'read:SocialNetwork',
-        'write:SocialNetwork',
     ])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups([
         'read:SocialNetwork',
-        'write:SocialNetwork',
     ])]
     private ?string $imageCodeFichier = null;
 
