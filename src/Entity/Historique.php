@@ -16,8 +16,8 @@ use App\Repository\HistoriqueRepository;
 use Doctrine\DBAL\Types\Types;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\ORM\Mapping as ORM;
-
 
 #[ORM\Entity(repositoryClass: HistoriqueRepository::class)]
 #[ApiResource(

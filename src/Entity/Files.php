@@ -20,6 +20,7 @@ use App\Utils\Traits\EntityTimestampTrait;
 use Doctrine\DBAL\Types\Types;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UlidGenerator;
 use Symfony\Component\Uid\Ulid;
