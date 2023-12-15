@@ -57,7 +57,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[UniqueEntity('email')]
 #[ApiFilter(DateFilter::class, properties: ['dateAjout', 'dateModif'])]
 #[ApiFilter(OrderFilter::class, properties: ['id', 'username'])]
-#[ApiFilter(SearchFilter::class, properties: ['deleted' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['deleted' => 'exact', 'userAjout' => 'exact', 'userModif'])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     use EntityTimestampTrait;

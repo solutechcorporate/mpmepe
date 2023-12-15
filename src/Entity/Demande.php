@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\DemandeRepository;
 use ApiPlatform\Doctrine\Orm\Filter\DateFilter;
 use ApiPlatform\Metadata\ApiFilter;
@@ -43,6 +45,8 @@ use Doctrine\ORM\Mapping as ORM;
         )
     ]
 )]
+#[ApiFilter(OrderFilter::class, properties: ['id', 'name'])]
+#[ApiFilter(SearchFilter::class, properties: ['deleted' => 'exact', 'userAjout' => 'exact', 'userModif'])]
 class Demande
 {
     use EntityTimestampTrait;

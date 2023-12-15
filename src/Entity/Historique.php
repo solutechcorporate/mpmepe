@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use ApiPlatform\Doctrine\Orm\Filter\DateFilter;
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
@@ -46,6 +48,8 @@ use Doctrine\ORM\Mapping as ORM;
 //        )
     ]
 )]
+#[ApiFilter(OrderFilter::class, properties: ['id', 'operation', 'nomTable'])]
+#[ApiFilter(SearchFilter::class, properties: ['deleted' => 'exact', 'userAjout' => 'exact', 'userModif'])]
 class Historique
 {
     use EntityTimestampTrait;
