@@ -100,9 +100,7 @@ class Files
     ])]
     private string $referenceCode;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::BOOLEAN, options: [
-        'default' => false,
-    ])]
+    #[ORM\Column]
     private string|bool|null $temp = false;
 
     public function __construct()

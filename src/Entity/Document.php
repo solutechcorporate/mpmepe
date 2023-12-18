@@ -16,6 +16,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
+use App\Service\ConvertValueToBoolService;
 use App\Utils\Traits\EntityTimestampTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -86,7 +87,7 @@ class Document
         'write:Document',
         'read:DocumentCategorieDocument',
     ])]
-    private ?bool $visibility = null;
+    private string|bool|null $visibility = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     #[Groups([
@@ -187,9 +188,9 @@ class Document
         return $this->visibility;
     }
 
-    public function setVisibility(bool $visibility): static
+    public function setVisibility(string|bool|null $visibility): static
     {
-        $this->visibility = $visibility;
+        $this->visibility = ConvertValueToBoolService::convertValueToBool($visibility);
 
         return $this;
     }

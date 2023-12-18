@@ -15,6 +15,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
+use App\Service\ConvertValueToBoolService;
 use App\Utils\Traits\EntityTimestampTrait;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -123,7 +124,7 @@ class Dirigeant
         'read:Direction',
         'read:Ministere',
     ])]
-    private ?bool $isMinistre = null;
+    private string|bool|null $isMinistre = null;
 
     #[ORM\ManyToOne(inversedBy: 'dirigeants')]
     #[ORM\JoinColumn(nullable: false)]
@@ -141,7 +142,7 @@ class Dirigeant
         'read:Direction',
         'read:Ministere',
     ])]
-    private ?bool $isMinistreActuel = null;
+    private string|bool|null $isMinistreActuel = null;
 
     #[ORM\Column(nullable: true)]
     #[Groups([
@@ -150,7 +151,7 @@ class Dirigeant
         'read:Direction',
         'read:Ministere',
     ])]
-    private ?bool $isDirecteur = null;
+    private string|bool|null $isDirecteur = null;
 
     #[ORM\Column(nullable: true)]
     #[Groups([
@@ -159,7 +160,7 @@ class Dirigeant
         'read:Direction',
         'read:Ministere',
     ])]
-    private ?bool $isDirecteurActuel = null;
+    private string|bool|null $isDirecteurActuel = null;
 
     #[ORM\ManyToOne(inversedBy: 'dirigeants')]
     #[ORM\JoinColumn(nullable: false)]
@@ -259,9 +260,9 @@ class Dirigeant
         return $this->isMinistre;
     }
 
-    public function setIsMinistre(bool $isMinistre): static
+    public function setIsMinistre(string|bool|null $isMinistre): static
     {
-        $this->isMinistre = $isMinistre;
+        $this->isMinistre = ConvertValueToBoolService::convertValueToBool($isMinistre);
 
         return $this;
     }
@@ -283,9 +284,9 @@ class Dirigeant
         return $this->isMinistreActuel;
     }
 
-    public function setIsMinistreActuel(?bool $isMinistreActuel): static
+    public function setIsMinistreActuel(string|bool|null $isMinistreActuel): static
     {
-        $this->isMinistreActuel = $isMinistreActuel;
+        $this->isMinistreActuel = ConvertValueToBoolService::convertValueToBool($isMinistreActuel);
 
         return $this;
     }
@@ -295,9 +296,9 @@ class Dirigeant
         return $this->isDirecteur;
     }
 
-    public function setIsDirecteur(?bool $isDirecteur): static
+    public function setIsDirecteur(string|bool|null $isDirecteur): static
     {
-        $this->isDirecteur = $isDirecteur;
+        $this->isDirecteur = ConvertValueToBoolService::convertValueToBool($isDirecteur);
 
         return $this;
     }
@@ -307,9 +308,9 @@ class Dirigeant
         return $this->isDirecteurActuel;
     }
 
-    public function setIsDirecteurActuel(?bool $isDirecteurActuel): static
+    public function setIsDirecteurActuel(string|bool|null $isDirecteurActuel): static
     {
-        $this->isDirecteurActuel = $isDirecteurActuel;
+        $this->isDirecteurActuel = ConvertValueToBoolService::convertValueToBool($isDirecteurActuel);
 
         return $this;
     }

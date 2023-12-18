@@ -17,6 +17,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
+use App\Service\ConvertValueToBoolService;
 use App\Utils\Traits\EntityTimestampTrait;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -98,7 +99,7 @@ class Article // implements UserOwnedInterface
         'read:Article',
         'write:Article',
     ])]
-    private ?bool $visibility = null;
+    private string|bool|null $visibility = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     #[Groups([
@@ -112,14 +113,14 @@ class Article // implements UserOwnedInterface
         'read:Article',
         'write:Article',
     ])]
-    private ?bool $isMention = null;
+    private string|bool|null $isMention = null;
 
     #[ORM\Column]
     #[Groups([
         'read:Article',
         'write:Article',
     ])]
-    private ?bool $isFlashinfo = null;
+    private string|bool|null $isFlashinfo = null;
 
     #[ORM\Column]
     #[Groups([
@@ -271,9 +272,9 @@ class Article // implements UserOwnedInterface
         return $this->visibility;
     }
 
-    public function setVisibility(bool $visibility): static
+    public function setVisibility(string|bool|null $visibility): static
     {
-        $this->visibility = $visibility;
+        $this->visibility = ConvertValueToBoolService::convertValueToBool($visibility);
 
         return $this;
     }
@@ -295,9 +296,9 @@ class Article // implements UserOwnedInterface
         return $this->isMention;
     }
 
-    public function setIsMention(bool $isMention): static
+    public function setIsMention(string|bool|null $isMention): static
     {
-        $this->isMention = $isMention;
+        $this->isMention = ConvertValueToBoolService::convertValueToBool($isMention);
 
         return $this;
     }
@@ -307,9 +308,9 @@ class Article // implements UserOwnedInterface
         return $this->isFlashinfo;
     }
 
-    public function setIsFlashinfo(bool $isFlashinfo): static
+    public function setIsFlashinfo(string|bool|null $isFlashinfo): static
     {
-        $this->isFlashinfo = $isFlashinfo;
+        $this->isFlashinfo = ConvertValueToBoolService::convertValueToBool($isFlashinfo);
 
         return $this;
     }

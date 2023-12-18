@@ -16,6 +16,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
+use App\Service\ConvertValueToBoolService;
 use App\Utils\Traits\EntityTimestampTrait;
 use Doctrine\DBAL\Types\Types;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -94,21 +95,21 @@ class SocialNetwork
         'read:SocialNetwork',
         'write:SocialNetwork',
     ])]
-    private ?bool $headerIsSelect = null;
+    private string|bool|null $headerIsSelect = null;
 
     #[ORM\Column(nullable: true)]
     #[Groups([
         'read:SocialNetwork',
         'write:SocialNetwork',
     ])]
-    private ?bool $footerIsSelect = null;
+    private string|bool|null $footerIsSelect = null;
 
     #[ORM\Column(nullable: true)]
     #[Groups([
         'read:SocialNetwork',
         'write:SocialNetwork',
     ])]
-    private ?bool $contactIsSelect = null;
+    private string|bool|null $contactIsSelect = null;
 
     #[Groups([
         'read:SocialNetwork',
@@ -180,9 +181,9 @@ class SocialNetwork
         return $this->headerIsSelect;
     }
 
-    public function setHeaderIsSelect(bool $headerIsSelect): static
+    public function setHeaderIsSelect(string|bool|null $headerIsSelect): static
     {
-        $this->headerIsSelect = $headerIsSelect;
+        $this->headerIsSelect = ConvertValueToBoolService::convertValueToBool($headerIsSelect);
 
         return $this;
     }
@@ -192,9 +193,9 @@ class SocialNetwork
         return $this->footerIsSelect;
     }
 
-    public function setFooterIsSelect(bool $footerIsSelect): static
+    public function setFooterIsSelect(string|bool|null $footerIsSelect): static
     {
-        $this->footerIsSelect = $footerIsSelect;
+        $this->footerIsSelect = ConvertValueToBoolService::convertValueToBool($footerIsSelect);
 
         return $this;
     }
@@ -204,9 +205,9 @@ class SocialNetwork
         return $this->contactIsSelect;
     }
 
-    public function setContactIsSelect(bool $contactIsSelect): static
+    public function setContactIsSelect(string|bool|null $contactIsSelect): static
     {
-        $this->contactIsSelect = $contactIsSelect;
+        $this->contactIsSelect = ConvertValueToBoolService::convertValueToBool($contactIsSelect);
 
         return $this;
     }
