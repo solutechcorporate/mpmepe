@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use App\Controller\AjouterMinistereAction;
 use App\Repository\MinistereRepository;
 use ApiPlatform\Doctrine\Orm\Filter\DateFilter;
 use ApiPlatform\Metadata\ApiFilter;
@@ -32,6 +33,8 @@ use Doctrine\ORM\Mapping as ORM;
         new Get(),
         new GetCollection(),
         new Post(
+            controller: AjouterMinistereAction::class,
+            write: false,
             validationContext: ['groups' => ['Default']],
             inputFormats: ['multipart' => ['multipart/form-data']],
             security: "is_granted('ROLE_ADMIN')"
@@ -134,6 +137,13 @@ class Ministere
     ])]
     private Collection $dirigeants;
 
+    #[Groups([
+        'read:Ministere',
+        'read:Direction',
+        'read:Dirigeant',
+    ])]
+    public array $fichiers = [];
+
     public function __construct()
     {
         $this->dirigeants = new ArrayCollection();
@@ -145,6 +155,13 @@ class Ministere
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function setId(int $id)
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     public function getLogoCodeFichier(): ?string
@@ -270,6 +287,17 @@ class Ministere
             }
         }
 
+        return $this;
+    }
+
+    public function getFichiers(): array
+    {
+        return $this->fichiers;
+    }
+
+    public function setFichiers(array $fichiers)
+    {
+        $this->fichiers = $fichiers;
         return $this;
     }
 

@@ -72,6 +72,12 @@ class FileUploader
         }
 
         $extension = $file->getClientOriginalExtension();
+        $fileSize = $file->getFileInfo()->getSize();
+
+        if ($fileSize === false) {
+            $fileSize = 0;
+        }
+
         $fileNewName = md5(uniqid()) . '.' . $extension;
 
         // Get folder location based on entity
@@ -87,7 +93,7 @@ class FileUploader
         $file = new Files();
         $file->setFilename($fileNewName);
         $file->setTemp($temp);
-        $file->setSize(0);
+        $file->setSize($fileSize);
         $file->setLocation($location);
         $file->setType($extension);
         $file->setReferenceCode($reference);

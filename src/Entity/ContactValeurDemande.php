@@ -27,8 +27,12 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
     normalizationContext: ['groups' => ['read:ContactValeurDemande','read:Entity']],
     denormalizationContext: ['groups' => ['write:ContactValeurDemande','write:Entity']],
     operations: [
-        new Get(),
-        new GetCollection(),
+        new Get(
+            security: "is_granted('ROLE_ADMIN')"
+        ),
+        new GetCollection(
+            security: "is_granted('ROLE_ADMIN')"
+        ),
 //        new Post(
 //            validationContext: ['groups' => ['Default']],
 ////            security: "is_granted('ROLE_ADMIN')"

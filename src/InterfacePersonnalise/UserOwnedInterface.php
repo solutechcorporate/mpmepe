@@ -6,7 +6,7 @@ use App\Entity\User;
 
 interface UserOwnedInterface
 {
-    public function getUser(): ?User;
+    public function getUserModif(): ?User;
 
-    public function setUser(?User $user): self;
+    public function setUserModif(?User $userModif): self;
 }

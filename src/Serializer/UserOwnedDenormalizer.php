@@ -31,7 +31,7 @@ class UserOwnedDenormalizer implements ContextAwareDenormalizerInterface, Denorm
         $data[self::ALREADY_CALLED_DENORMALIZER] = true;
         /** @var UserOwnedInterface $obj */
         $obj = $this->denormalizer->denormalize($data, $type, $format, $context);
-        $obj->setUser($this->security->getUser());
+        $obj->setUserModif($this->security->getUser());
 
         return $obj;
     }

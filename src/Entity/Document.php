@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use App\Controller\AjouterDocumentAction;
 use App\Repository\DocumentRepository;
 use ApiPlatform\Doctrine\Orm\Filter\DateFilter;
 use ApiPlatform\Metadata\ApiFilter;
@@ -32,6 +33,8 @@ use Doctrine\ORM\Mapping as ORM;
         new Get(),
         new GetCollection(),
         new Post(
+            controller: AjouterDocumentAction::class,
+            write: false,
             validationContext: ['groups' => ['Default']],
             inputFormats: ['multipart' => ['multipart/form-data']],
             security: "is_granted('ROLE_ADMIN')"
@@ -122,6 +125,19 @@ class Document
     ])]
     private ?float $tailleFichier = null;
 
+    #[Groups([
+        'read:Document',
+        'read:DocumentCategorieDocument',
+    ])]
+    public array $fichiers = [];
+
+    #[ORM\Column(nullable: true)]
+    #[Groups([
+        'read:Document',
+        'read:DocumentCategorieDocument',
+    ])]
+    private ?float $extensionFichier = null;
+
     public function __construct()
     {
         $this->dateAjout = new \DateTimeImmutable();
@@ -133,6 +149,13 @@ class Document
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function setId(int $id)
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     public function getDocCodeFichier(): ?string
@@ -257,6 +280,29 @@ class Document
     public function setTailleFichier(?float $tailleFichier): static
     {
         $this->tailleFichier = $tailleFichier;
+
+        return $this;
+    }
+
+    public function getFichiers(): array
+    {
+        return $this->fichiers;
+    }
+
+    public function setFichiers(array $fichiers)
+    {
+        $this->fichiers = $fichiers;
+        return $this;
+    }
+
+    public function getExtensionFichier(): ?float
+    {
+        return $this->extensionFichier;
+    }
+
+    public function setExtensionFichier(?float $extensionFichier): static
+    {
+        $this->extensionFichier = $extensionFichier;
 
         return $this;
     }

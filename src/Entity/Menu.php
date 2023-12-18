@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use App\Controller\AjouterMenuAction;
 use App\Repository\MenuRepository;
 use ApiPlatform\Doctrine\Orm\Filter\DateFilter;
 use ApiPlatform\Metadata\ApiFilter;
@@ -32,6 +33,8 @@ use Doctrine\ORM\Mapping as ORM;
         new Get(),
         new GetCollection(),
         new Post(
+            controller: AjouterMenuAction::class,
+            write: false,
             validationContext: ['groups' => ['Default']],
             inputFormats: ['multipart' => ['multipart/form-data']],
             security: "is_granted('ROLE_ADMIN')"
@@ -103,6 +106,12 @@ class Menu
     ])]
     private ?string $imageCodeFichier = null;
 
+    #[Groups([
+        'read:Menu',
+        'read:Header',
+    ])]
+    public array $fichiers = [];
+
     public function __construct()
     {
         $this->sousMenus = new ArrayCollection();
@@ -114,6 +123,13 @@ class Menu
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function setId(int $id)
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     public function getName(): ?string
@@ -203,6 +219,17 @@ class Menu
     {
         $this->imageCodeFichier = $imageCodeFichier;
 
+        return $this;
+    }
+
+    public function getFichiers(): array
+    {
+        return $this->fichiers;
+    }
+
+    public function setFichiers(array $fichiers)
+    {
+        $this->fichiers = $fichiers;
         return $this;
     }
 }

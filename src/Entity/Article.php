@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use App\Controller\AjouterArticleAction;
 use App\InterfacePersonnalise\UserOwnedInterface;
 use App\Repository\ArticleRepository;
 use ApiPlatform\Doctrine\Orm\Filter\DateFilter;
@@ -31,6 +32,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
         new Get(),
         new GetCollection(),
         new Post(
+            controller: AjouterArticleAction::class,
+            write: false,
             validationContext: ['groups' => ['Default']],
             inputFormats: ['multipart' => ['multipart/form-data']],
             security: "is_granted('ROLE_ADMIN')"
@@ -198,9 +201,21 @@ class Article // implements UserOwnedInterface
     #[ORM\Column(nullable: true)]
     private ?int $nbLiaison = null;
 
+    #[Groups([
+        'read:Article',
+    ])]
+    public array $fichiers = [];
+
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function setId(int $id)
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     public function getTitre(): ?string
@@ -442,4 +457,16 @@ class Article // implements UserOwnedInterface
 
         return $this;
     }
+
+    public function getFichiers(): array
+    {
+        return $this->fichiers;
+    }
+
+    public function setFichiers(array $fichiers)
+    {
+        $this->fichiers = $fichiers;
+        return $this;
+    }
+
 }

@@ -55,7 +55,7 @@ use Symfony\Component\Uid\Ulid;
     ]
 )]
 #[ApiFilter(OrderFilter::class, properties: ['filename', 'type'])]
-#[ApiFilter(SearchFilter::class, properties: ['deleted' => 'exact', 'userAjout' => 'exact', 'userModif'])]
+#[ApiFilter(SearchFilter::class, properties: ['deleted' => 'exact', 'userAjout' => 'exact', 'userModif' => 'exact'])]
 class Files
 {
     use EntityTimestampTrait;
@@ -88,11 +88,11 @@ class Files
     ])]
     private string $location;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::INTEGER, length: 11)]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::FLOAT)]
     #[Groups([
         'read:Files',
     ])]
-    private int $size = 0;
+    private float $size;
 
     #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255)]
     #[Groups([
@@ -104,6 +104,14 @@ class Files
         'default' => false,
     ])]
     private string|bool|null $temp = false;
+
+    public function __construct()
+    {
+        $this->size = 0;
+        $this->dateAjout = new \DateTimeImmutable();
+        $this->dateModif = new \DateTime();
+        $this->deleted = "0";
+    }
 
     public function getId(): ?Ulid
     {

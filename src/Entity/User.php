@@ -40,6 +40,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
             security: "is_granted('ROLE_ADMIN')"
         ),
         new Post(
+            controller: AjouterUserAction::class,
+            write: false,
             validationContext: ['groups' => ['Default']],
             inputFormats: ['multipart' => ['multipart/form-data']],
         ),
@@ -57,7 +59,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[UniqueEntity('email')]
 #[ApiFilter(DateFilter::class, properties: ['dateAjout', 'dateModif'])]
 #[ApiFilter(OrderFilter::class, properties: ['id', 'username'])]
-#[ApiFilter(SearchFilter::class, properties: ['deleted' => 'exact', 'userAjout' => 'exact', 'userModif'])]
+#[ApiFilter(SearchFilter::class, properties: ['deleted' => 'exact', 'userAjout' => 'exact', 'userModif' => 'exact'])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     use EntityTimestampTrait;
@@ -114,6 +116,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?int $nbLiaison = null;
 
+//    #[Groups([
+//        'read:User',
+//        'read:UserRole',
+//    ])]
+    public array $fichiers = [];
+
     public function __construct()
     {
         $this->dateAjout = new \DateTimeImmutable();
@@ -125,6 +133,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function setId(int $id)
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     public function getEmail(): ?string
@@ -249,6 +264,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setNbLiaison(?int $nbLiaison): static
     {
         $this->nbLiaison = $nbLiaison;
+
+        return $this;
+    }
+
+    public function getFichiers(): array
+    {
+        return $this->fichiers;
+    }
+
+    public function setFichiers(array $fichiers)
+    {
+        $this->fichiers = $fichiers;
 
         return $this;
     }

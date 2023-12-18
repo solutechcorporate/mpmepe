@@ -4,16 +4,10 @@ namespace App\Controller;
 
 use ApiPlatform\Serializer\SerializerContextBuilderInterface;
 use ApiPlatform\Symfony\Util\RequestAttributesExtractor;
-use App\Entity\Agence;
-use App\Entity\DataUser;
-use App\Entity\TypeUser;
-use App\Entity\TypeUserAttribut;
-use App\Entity\User;
+use App\Entity\Article;
 use App\Repository\FilesRepository;
-use App\Service\DeserializeApiPlatformResource;
 use App\Service\FileUploader;
 use App\Service\RandomStringGeneratorServices;
-use App\Service\ValidateApiPlatformResource;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -23,7 +17,7 @@ use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 
 #[AsController]
-final class AjouterAgenceAction extends AbstractController
+final class AjouterArticleAction extends AbstractController
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
@@ -42,14 +36,14 @@ final class AjouterAgenceAction extends AbstractController
             'message' => "Impossible de désérialiser les données."
         ]);
 
-        if ($request->attributes->get('data') instanceof Agence) {
+        if ($request->attributes->get('data') instanceof Article) {
             /*
             *  On traite ici l'enregistrement dans la base de données
             *  (équivaut à l'attribut de api operation:  write: false)
             */
 
-            /** @var Agence $agence */
-            $agence = $request->attributes->get('data');
+            /** @var Article $article */
+            $article = $request->attributes->get('data');
 
             // Nouvel enregistrement
             if (!$request->request->get('resourceId')) {
@@ -57,8 +51,8 @@ final class AjouterAgenceAction extends AbstractController
 
                 // Gestion des fichiers
                 if ($fichierUploades !== null) {
-                    // Enregistrement du logo de l'agence
-                    if (array_key_exists('logo', $fichierUploades)) {
+                    // Enregistrement de l'image de l'article
+                    if (array_key_exists('imageFichier', $fichierUploades)) {
                         // On s'assure que la reference est unique pour ne pas lier d'autres fichiers
                         do {
                             $reference = $this->randomStringGeneratorServices->random_alphanumeric(16);
@@ -69,41 +63,41 @@ final class AjouterAgenceAction extends AbstractController
 
                         } while (count($existFiles) > 0);
 
-                        if ($fichierUploades['logo'] instanceof UploadedFile) {
+                        if ($fichierUploades['imageFichier'] instanceof UploadedFile) {
                             $this->fileUploader->saveFile(
-                                $fichierUploades['logo'],
+                                $fichierUploades['imageFichier'],
                                 false,
-                                Agence::class,
+                                Article::class,
                                 null,
                                 $reference);
                         }
 
-                        $agence->setLogo($reference);
+                        $article->setImageCodeFichier($reference);
                     }
 
                 }
 
-                $this->entityManager->persist($agence);
+                $this->entityManager->persist($article);
                 $this->entityManager->flush();
-                $this->entityManager->refresh($agence);
+                $this->entityManager->refresh($article);
 
             } // resourceId n'existe pas
 
-            // Modification des informations de l'agence
+            // Modification des informations de l'article
             if ($request->request->get('resourceId')) {
-                $agence->setId((int) $request->request->get('resourceId'));
+                $article->setId((int) $request->request->get('resourceId'));
 
-                $existAgence = $this->entityManager->getRepository(Agence::class)
+                $existArticle = $this->entityManager->getRepository(Article::class)
                     ->findOneBy(
                         [
-                            'id' => $agence->getId()
+                            'id' => $article->getId()
                         ]
                     )
                 ;
 
                 $attributes = RequestAttributesExtractor::extractAttributes($request);
                 $context = $this->serializerContextBuilder->createFromRequest($request, false, $attributes);
-                $entitySerialise = $this->serializer->serialize($agence, 'json', []);
+                $entitySerialise = $this->serializer->serialize($article, 'json', []);
 
                 // Remplacement des valeurs dans $entitySerialise
                 $entitySerialise = json_decode($entitySerialise, true);
@@ -118,16 +112,16 @@ final class AjouterAgenceAction extends AbstractController
                 }
                 $entitySerialise = json_encode($entitySerialise);
 
-                if ($existAgence) {
-                    $context[AbstractNormalizer::OBJECT_TO_POPULATE] = $existAgence;
-                    $agence = $this->serializer->deserialize($entitySerialise, Agence::class, 'json', $context);
+                if ($existArticle) {
+                    $context[AbstractNormalizer::OBJECT_TO_POPULATE] = $existArticle;
+                    $article = $this->serializer->deserialize($entitySerialise, Article::class, 'json', $context);
                 }
 
                 // Gestion des fichiers
                 if ($request->files->all() !== null) {
-                    // Enregistrement ou modification du logo de l'agence
-                    if (array_key_exists('logo', $request->files->all())) {
-                        $reference = $agence->getLogo();
+                    // Enregistrement ou modification de l'image de l'article
+                    if (array_key_exists('imageFichier', $request->files->all())) {
+                        $reference = $article->getImageCodeFichier();
 
                         if ($reference === null || trim($reference) === '') {
                             // On s'assure que la reference est unique pour ne pas lier d'autres fichiers
@@ -141,42 +135,43 @@ final class AjouterAgenceAction extends AbstractController
                             } while (count($existFiles) > 0);
                         }
 
-                        if ($request->files->all()['logo'] instanceof UploadedFile) {
+                        if ($request->files->all()['imageFichier'] instanceof UploadedFile) {
                             $this->fileUploader->saveFile(
-                                $request->files->all()['logo'],
+                                $request->files->all()['imageFichier'],
                                 false,
-                                Agence::class,
+                                Article::class,
                                 $reference,
                                 $reference
                             );
                         }
 
-                        $agence->setLogo($reference);
+                        $article->setImageCodeFichier($reference);
                     }
 
                 }  // Fin gestion des fichiers
 
                 $this->entityManager->flush();
-                $this->entityManager->refresh($agence);
+                $this->entityManager->refresh($article);
 
             } // resourceId existe
 
             // Récupération des fichiers
-            $fileLogo = $this->filesRepository->findOneBy(
+            $fileImage = $this->filesRepository->findOneBy(
                 [
-                    'referenceCode' => $agence->getLogo()
+                    'referenceCode' => $article->getImageCodeFichier()
                 ]
             );
 
             $serverUrl = $this->getParameter('serverUrl');
 
+            $fichiers = [
+                'imageFichier' => $fileImage ? $serverUrl.$fileImage->getLocation().$fileImage->getFilename() : null
+            ];
+            $article->setFichiers($fichiers);
+
             // On retourne un objet ArrayObject
-            // Decoder l'url encodé en JavaScript avec la fonction decodeURIComponent
             $data = new \ArrayObject([
-                'agence' => $agence,
-                'fichiers' => [
-                    'logo' => $fileLogo ? $serverUrl.$fileLogo->getLocation().$fileLogo->getFilename() : null
-                ]
+                'article' => $article,
             ]);
         }
 

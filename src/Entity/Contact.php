@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use App\Controller\AjouterContactAction;
 use App\Repository\ContactRepository;
 use ApiPlatform\Doctrine\Orm\Filter\DateFilter;
 use ApiPlatform\Metadata\ApiFilter;
@@ -29,18 +30,24 @@ use Doctrine\ORM\Mapping as ORM;
     normalizationContext: ['groups' => ['read:Contact','read:Entity']],
     denormalizationContext: ['groups' => ['write:Contact','write:Entity']],
     operations: [
-        new Get(),
-        new GetCollection(),
+        new Get(
+            security: "is_granted('ROLE_ADMIN')"
+        ),
+        new GetCollection(
+            security: "is_granted('ROLE_ADMIN')"
+        ),
         new Post(
+            controller: AjouterContactAction::class,
+            write: false,
             validationContext: ['groups' => ['Default']],
 //            security: "is_granted('ROLE_ADMIN')"
         ),
-        new Put(
-            security: "is_granted('ROLE_ADMIN')"
-        ),
-        new Patch(
-            security: "is_granted('ROLE_ADMIN')"
-        ),
+//        new Put(
+//            security: "is_granted('ROLE_ADMIN')"
+//        ),
+//        new Patch(
+//            security: "is_granted('ROLE_ADMIN')"
+//        ),
         new Delete(
             security: "is_granted('ROLE_ADMIN')"
         )
@@ -118,6 +125,13 @@ class Contact
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function setId(int $id)
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     public function getNomPrenom(): ?string
