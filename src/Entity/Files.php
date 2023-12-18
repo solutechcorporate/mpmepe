@@ -103,6 +103,11 @@ class Files
     #[ORM\Column]
     private string|bool|null $temp = false;
 
+    #[Groups([
+        'read:Files',
+    ])]
+    public array $fichiers = [];
+
     public function __construct()
     {
         $this->size = 0;
@@ -184,6 +189,18 @@ class Files
     public function setTemp(string|bool|null $temp): self
     {
         $this->temp = ConvertValueToBoolService::convertValueToBool($temp);
+
+        return $this;
+    }
+
+    public function getFichiers(): array
+    {
+        return $this->fichiers;
+    }
+
+    public function setFichiers(array $fichiers)
+    {
+        $this->fichiers = $fichiers;
 
         return $this;
     }

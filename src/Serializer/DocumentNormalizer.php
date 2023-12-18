@@ -2,18 +2,18 @@
 
 namespace App\Serializer;
 
-use App\Entity\Service;
+use App\Entity\Document;
 use App\Repository\FilesRepository;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Serializer\Normalizer\ContextAwareNormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 
-final class ServiceNormalizer implements ContextAwareNormalizerInterface, NormalizerAwareInterface
+final class DocumentNormalizer implements ContextAwareNormalizerInterface, NormalizerAwareInterface
 {
     use NormalizerAwareTrait;
 
-    private const ALREADY_CALLED = 'SERVICE_NORMALIZER_ALREADY_CALLED';
+    private const ALREADY_CALLED = 'DOCUMENT_NORMALIZER_ALREADY_CALLED';
 
     public function __construct(
         private FilesRepository $filesRepository,
@@ -23,7 +23,7 @@ final class ServiceNormalizer implements ContextAwareNormalizerInterface, Normal
     }
 
     /**
-     * @param Service $object
+     * @param Document $object
      * @param string|null $format
      * @param array $context
      * @return array|string|int|float|bool|\ArrayObject|null
@@ -32,19 +32,19 @@ final class ServiceNormalizer implements ContextAwareNormalizerInterface, Normal
     {
         $context[self::ALREADY_CALLED] = true;
 
-        $fichierImageEntete = $this->filesRepository->findOneBy(
+        $fileDoc = $this->filesRepository->findOneBy(
             [
-                'referenceCode' => $object->getCodeFichierImageEntete()
+                'referenceCode' => $object->getDocCodeFichier()
             ]
         );
 
         $serverUrl = $this->parameterBag->get('serverUrl');
 
-        if ($fichierImageEntete !== null) {
-            $object->urlImageEntete = $serverUrl.$fichierImageEntete->getLocation().$fichierImageEntete->getFilename();
-        } else {
-            $object->urlImageEntete = null;
-        }
+        $fichiers = [
+            'docFichier' => $fileDoc ? $serverUrl.$fileDoc->getLocation().$fileDoc->getFilename() : null
+        ];
+
+        $object->setFichiers($fichiers);
 
         return $this->normalizer->normalize($object, $format, $context);
     }
@@ -55,7 +55,7 @@ final class ServiceNormalizer implements ContextAwareNormalizerInterface, Normal
             return false;
         }
 
-        return $data instanceof Service;
+        return $data instanceof Document;
     }
 
 }
