@@ -49,9 +49,9 @@ use Symfony\Component\Uid\Ulid;
 //        new Patch(
 //            security: "is_granted('ROLE_ADMIN')"
 //        ),
-        new Delete(
-            security: "is_granted('ROLE_ADMIN')"
-        )
+//        new Delete(
+//            security: "is_granted('ROLE_ADMIN')"
+//        )
     ]
 )]
 #[ApiFilter(OrderFilter::class, properties: ['filename', 'type'])]

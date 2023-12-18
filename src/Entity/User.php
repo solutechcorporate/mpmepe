@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use App\Controller\Delete\DeleteUserAction;
 use App\InterfacePersonnalise\UserOwnedInterface;
 use App\Repository\UserRepository;
 use ApiPlatform\Doctrine\Orm\Filter\DateFilter;
@@ -54,7 +55,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
 //            security: "is_granted('ROLE_ADMIN')"
 //        ),
         new Delete(
-            security: "is_granted('ROLE_ADMIN')"
+            security: "is_granted('ROLE_ADMIN')",
+            controller: DeleteUserAction::class,
+            write: false
         )
     ]
 )]

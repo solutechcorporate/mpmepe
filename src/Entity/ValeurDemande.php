@@ -14,6 +14,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
+use App\Controller\Delete\DeleteValeurDemandeAction;
 use App\InterfacePersonnalise\UserOwnedInterface;
 use App\Repository\ValeurDemandeRepository;
 use App\Utils\Traits\EntityTimestampTrait;
@@ -44,7 +45,9 @@ use Doctrine\ORM\Mapping as ORM;
             security: "is_granted('ROLE_ADMIN')"
         ),
         new Delete(
-            security: "is_granted('ROLE_ADMIN')"
+            security: "is_granted('ROLE_ADMIN')",
+            controller: DeleteValeurDemandeAction::class,
+            write: false
         )
     ]
 )]

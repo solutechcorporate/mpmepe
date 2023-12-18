@@ -29,8 +29,8 @@ class ConvertValueToBoolService
             case strtolower(trim((string) $value)) === "":
                 $retour = "0";
                 break;
-            case strtolower(trim((string) $value)) === "true":
             case $value === true:
+            case strtolower(trim((string) $value)) === "true":
             case strtolower(trim((string) $value)) === "1":
             case $value === 1:
             case strtolower(trim((string) $value)) === "oui":

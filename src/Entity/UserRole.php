@@ -14,6 +14,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
+use App\Controller\Delete\DeleteUserRoleAction;
 use App\InterfacePersonnalise\UserOwnedInterface;
 use App\Repository\UserRoleRepository;
 use App\Utils\Traits\EntityTimestampTrait;
@@ -46,7 +47,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 //            security: "is_granted('ROLE_ADMIN')"
 //        ),
         new Delete(
-            security: "is_granted('ROLE_ADMIN')"
+            security: "is_granted('ROLE_ADMIN')",
+            controller: DeleteUserRoleAction::class,
+            write: false
         )
     ]
 )]

@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use App\Controller\AjouterSocialNetworkAction;
+use App\Controller\Delete\DeleteSocialNetworkAction;
 use App\InterfacePersonnalise\UserOwnedInterface;
 use App\Repository\SocialNetworkRepository;
 use ApiPlatform\Doctrine\Orm\Filter\DateFilter;
@@ -47,7 +48,9 @@ use Doctrine\ORM\Mapping as ORM;
 //            security: "is_granted('ROLE_ADMIN')"
 //        ),
         new Delete(
-            security: "is_granted('ROLE_ADMIN')"
+            security: "is_granted('ROLE_ADMIN')",
+            controller: DeleteSocialNetworkAction::class,
+            write: false
         )
     ]
 )]

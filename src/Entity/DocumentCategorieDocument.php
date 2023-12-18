@@ -14,6 +14,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
+use App\Controller\Delete\DeleteDocCategorieDocAction;
 use App\Repository\DocumentCategorieDocumentRepository;
 use App\Utils\Traits\EntityTimestampTrait;
 use Doctrine\ORM\Mapping as ORM;
@@ -40,7 +41,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 //            security: "is_granted('ROLE_ADMIN')"
 //        ),
         new Delete(
-            security: "is_granted('ROLE_ADMIN')"
+            security: "is_granted('ROLE_ADMIN')",
+            controller: DeleteDocCategorieDocAction::class,
+            write: false
         )
     ]
 )]

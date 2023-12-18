@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use App\Controller\AjouterArticleAction;
+use App\Controller\Delete\DeleteArticleAction;
 use App\InterfacePersonnalise\UserOwnedInterface;
 use App\Repository\ArticleRepository;
 use ApiPlatform\Doctrine\Orm\Filter\DateFilter;
@@ -47,7 +48,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 //            security: "is_granted('ROLE_ADMIN')"
 //        ),
         new Delete(
-            security: "is_granted('ROLE_ADMIN')"
+            controller: DeleteArticleAction::class,
+            write: false,
+            security: "is_granted('ROLE_ADMIN')",
         )
     ]
 )]

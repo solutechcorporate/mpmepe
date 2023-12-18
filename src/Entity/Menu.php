@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use App\Controller\AjouterMenuAction;
+use App\Controller\Delete\DeleteMenuAction;
 use App\InterfacePersonnalise\UserOwnedInterface;
 use App\Repository\MenuRepository;
 use ApiPlatform\Doctrine\Orm\Filter\DateFilter;
@@ -48,7 +49,9 @@ use Doctrine\ORM\Mapping as ORM;
 //            security: "is_granted('ROLE_ADMIN')"
 //        ),
         new Delete(
-            security: "is_granted('ROLE_ADMIN')"
+            security: "is_granted('ROLE_ADMIN')",
+            controller: DeleteMenuAction::class,
+            write: false
         )
     ]
 )]
