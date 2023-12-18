@@ -54,7 +54,7 @@ use Doctrine\ORM\Mapping as ORM;
     ]
 )]
 #[ApiFilter(OrderFilter::class, properties: ['nomPrenom'])]
-#[ApiFilter(SearchFilter::class, properties: ['deleted' => 'exact', 'userAjout' => 'exact', 'userModif'])]
+#[ApiFilter(SearchFilter::class, properties: ['deleted' => 'exact'])]
 class Contact
 {
     use EntityTimestampTrait;

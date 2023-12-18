@@ -16,6 +16,7 @@ use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use App\Utils\Traits\EntityTimestampTrait;
+use App\Utils\Traits\UserAjoutModifTrait;
 use Doctrine\DBAL\Types\Types;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -47,10 +48,11 @@ use Doctrine\ORM\Mapping as ORM;
     ]
 )]
 #[ApiFilter(OrderFilter::class, properties: ['nom'])]
-#[ApiFilter(SearchFilter::class, properties: ['deleted' => 'exact', 'userAjout' => 'exact', 'userModif'])]
+#[ApiFilter(SearchFilter::class, properties: ['deleted' => 'exact', 'userAjout' => 'exact', 'userModif' => 'exact'])]
 class CategorieDocument
 {
     use EntityTimestampTrait;
+    use UserAjoutModifTrait;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]

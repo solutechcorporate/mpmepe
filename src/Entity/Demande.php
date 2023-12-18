@@ -16,6 +16,7 @@ use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use App\Utils\Traits\EntityTimestampTrait;
+use App\Utils\Traits\UserAjoutModifTrait;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -46,10 +47,11 @@ use Doctrine\ORM\Mapping as ORM;
     ]
 )]
 #[ApiFilter(OrderFilter::class, properties: ['id', 'name'])]
-#[ApiFilter(SearchFilter::class, properties: ['deleted' => 'exact', 'userAjout' => 'exact', 'userModif'])]
+#[ApiFilter(SearchFilter::class, properties: ['deleted' => 'exact', 'userAjout' => 'exact', 'userModif' => 'exact'])]
 class Demande
 {
     use EntityTimestampTrait;
+    use UserAjoutModifTrait;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]

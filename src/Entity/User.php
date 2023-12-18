@@ -18,6 +18,7 @@ use ApiPlatform\Metadata\Put;
 use App\Controller\AjouterUserAction;
 use App\State\UserPasswordHasher;
 use App\Utils\Traits\EntityTimestampTrait;
+use App\Utils\Traits\UserAjoutModifTrait;
 use Doctrine\DBAL\Types\Types;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -63,6 +64,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     use EntityTimestampTrait;
+    use UserAjoutModifTrait;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]

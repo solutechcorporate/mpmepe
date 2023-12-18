@@ -16,6 +16,7 @@ use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use App\Utils\Traits\EntityTimestampTrait;
+use App\Utils\Traits\UserAjoutModifTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -47,10 +48,11 @@ use Doctrine\ORM\Mapping as ORM;
     ]
 )]
 #[ApiFilter(OrderFilter::class, properties: ['id', 'nom', 'description'])]
-#[ApiFilter(SearchFilter::class, properties: ['deleted' => 'exact', 'userAjout' => 'exact', 'userModif'])]
+#[ApiFilter(SearchFilter::class, properties: ['deleted' => 'exact', 'userAjout' => 'exact', 'userModif' => 'exact'])]
 class Role
 {
     use EntityTimestampTrait;
+    use UserAjoutModifTrait;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]

@@ -16,6 +16,7 @@ use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use App\Repository\UserRoleRepository;
 use App\Utils\Traits\EntityTimestampTrait;
+use App\Utils\Traits\UserAjoutModifTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -49,10 +50,11 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
     ]
 )]
 #[ApiFilter(OrderFilter::class, properties: ['id'])]
-#[ApiFilter(SearchFilter::class, properties: ['deleted' => 'exact', 'userAjout' => 'exact', 'userModif'])]
+#[ApiFilter(SearchFilter::class, properties: ['deleted' => 'exact', 'userAjout' => 'exact', 'userModif' => 'exact'])]
 class UserRole
 {
     use EntityTimestampTrait;
+    use UserAjoutModifTrait;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]

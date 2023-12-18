@@ -55,7 +55,7 @@ use Symfony\Component\Uid\Ulid;
     ]
 )]
 #[ApiFilter(OrderFilter::class, properties: ['filename', 'type'])]
-#[ApiFilter(SearchFilter::class, properties: ['deleted' => 'exact', 'userAjout' => 'exact', 'userModif' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['deleted' => 'exact'])]
 class Files
 {
     use EntityTimestampTrait;
