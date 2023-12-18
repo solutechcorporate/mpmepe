@@ -14,6 +14,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
+use App\InterfacePersonnalise\UserOwnedInterface;
 use App\Repository\ValeurDemandeRepository;
 use App\Utils\Traits\EntityTimestampTrait;
 use App\Utils\Traits\UserAjoutModifTrait;
@@ -49,7 +50,7 @@ use Doctrine\ORM\Mapping as ORM;
 )]
 #[ApiFilter(OrderFilter::class, properties: ['id', 'optionValue'])]
 #[ApiFilter(SearchFilter::class, properties: ['deleted' => 'exact', 'userAjout' => 'exact', 'userModif' => 'exact'])]
-class ValeurDemande
+class ValeurDemande implements UserOwnedInterface
 {
     use EntityTimestampTrait;
     use UserAjoutModifTrait;

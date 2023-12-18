@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use App\InterfacePersonnalise\UserOwnedInterface;
 use App\Repository\UserRepository;
 use ApiPlatform\Doctrine\Orm\Filter\DateFilter;
 use ApiPlatform\Metadata\ApiFilter;
@@ -61,7 +62,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ApiFilter(DateFilter::class, properties: ['dateAjout', 'dateModif'])]
 #[ApiFilter(OrderFilter::class, properties: ['id', 'username'])]
 #[ApiFilter(SearchFilter::class, properties: ['deleted' => 'exact', 'userAjout' => 'exact', 'userModif' => 'exact'])]
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface, UserOwnedInterface
 {
     use EntityTimestampTrait;
     use UserAjoutModifTrait;

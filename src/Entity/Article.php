@@ -56,7 +56,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 )]
 #[ApiFilter(OrderFilter::class, properties: ['titre'])]
 #[ApiFilter(SearchFilter::class, properties: ['deleted' => 'exact', 'userAjout' => 'exact', 'userModif' => 'exact'])]
-class Article // implements UserOwnedInterface
+class Article implements UserOwnedInterface
 {
     use EntityTimestampTrait;
     use UserAjoutModifTrait;

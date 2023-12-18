@@ -14,6 +14,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
+use App\InterfacePersonnalise\UserOwnedInterface;
 use App\Repository\UserRoleRepository;
 use App\Utils\Traits\EntityTimestampTrait;
 use App\Utils\Traits\UserAjoutModifTrait;
@@ -51,7 +52,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 )]
 #[ApiFilter(OrderFilter::class, properties: ['id'])]
 #[ApiFilter(SearchFilter::class, properties: ['deleted' => 'exact', 'userAjout' => 'exact', 'userModif' => 'exact'])]
-class UserRole
+class UserRole implements UserOwnedInterface
 {
     use EntityTimestampTrait;
     use UserAjoutModifTrait;

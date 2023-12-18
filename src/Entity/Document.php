@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use App\Controller\AjouterDocumentAction;
+use App\InterfacePersonnalise\UserOwnedInterface;
 use App\Repository\DocumentRepository;
 use ApiPlatform\Doctrine\Orm\Filter\DateFilter;
 use ApiPlatform\Metadata\ApiFilter;
@@ -54,7 +55,7 @@ use Doctrine\ORM\Mapping as ORM;
 )]
 #[ApiFilter(OrderFilter::class, properties: ['id', 'titre'])]
 #[ApiFilter(SearchFilter::class, properties: ['deleted' => 'exact', 'userAjout' => 'exact', 'userModif' => 'exact'])]
-class Document
+class Document implements UserOwnedInterface
 {
     use EntityTimestampTrait;
     use UserAjoutModifTrait;

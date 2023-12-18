@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use App\InterfacePersonnalise\UserOwnedInterface;
 use App\Repository\DirigeantRepository;
 use ApiPlatform\Doctrine\Orm\Filter\DateFilter;
 use ApiPlatform\Metadata\ApiFilter;
@@ -50,7 +51,7 @@ use Doctrine\ORM\Mapping as ORM;
 )]
 #[ApiFilter(OrderFilter::class, properties: ['id', 'nomPrenoms', 'debutFonction'])]
 #[ApiFilter(SearchFilter::class, properties: ['deleted' => 'exact', 'userAjout' => 'exact', 'userModif' => 'exact'])]
-class Dirigeant
+class Dirigeant implements UserOwnedInterface
 {
     use EntityTimestampTrait;
     use UserAjoutModifTrait;

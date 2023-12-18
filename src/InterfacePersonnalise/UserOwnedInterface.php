@@ -8,5 +8,5 @@ interface UserOwnedInterface
 {
     public function getUserModif(): ?User;
 
-    public function setUserModif(?User $userModif): self;
+    public function setUserModif(?User $userModif): static;
 }
