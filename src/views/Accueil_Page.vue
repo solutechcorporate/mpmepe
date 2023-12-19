@@ -29,7 +29,8 @@
             <li class="menus"> <i class="far fa-share-square"></i> Social-media</li>
             <li class="général">Utilisateurs</li>
             <li class="menus"> <i class="far fa-save"></i> Sauvegarde</li>
-            <li class="menus"><i class="fas fa-book"></i> Guide d'utilisation</li>
+           
+            <li class="menus"><i class="fas fa-book"></i> Gestion d'utilisateur</li>
         </ul>
     </div>
     <div class="navbar">

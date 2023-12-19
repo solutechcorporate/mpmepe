@@ -2,14 +2,13 @@
     <div class="sidebar" style="margin-top: 5%;">
         <ul class="contenant" style="margin-top: 13%;">
             <li class="général">Général</li>
-            <router-link class="nav-link" :to="{ name: 'Accueil_Page' }">
+            <a class="nav-link" :to="{ name: 'Accueil_Page' }">
                 <li class="menus"><i class="fas fa-home-alt"></i> Accueil</li>
-            </router-link>
+            </a>
             <router-link class="nav-link" :to="{ name: 'Article_Page' }">
                 <li class="menus"> <i class="far fa-file-alt"></i> Article</li>
             </router-link>
-
-            <li class="menus"> <i class="far fa-play-circle"></i> Média</li>
+            <li class="menus"><i class="far fa-play-circle"></i> Média</li>
             <li class="général">Documents</li>
             <li class="menus"> <i class="far fa-film"></i> Cartégorie</li>
             <li class="menus"> <i class="fas fa-file-alt"></i> Document</li>
@@ -30,13 +29,14 @@
             <li class="menus"> <i class="far fa-share-square"></i> Social-media</li>
             <li class="général">Utilisateurs</li>
             <li class="menus"> <i class="far fa-save"></i> Sauvegarde</li>
-            <li class="menus"><i class="fas fa-book"></i> Guide d'utilisation</li>
+            <li class="menus"><i class="fas fa-book"></i> Gestion d'utilisateur</li>
         </ul>
     </div>
     <div class="navbar" style="z-index: 1;">
         <img class="logo_mpeme" src="@/assets/mpeme.png" alt="">
-
-        <div class="rechercher"><i class="fas fa-search white-icon"></i> Rechercher</div>
+        <router-link class="nav-link" :to="{ name: 'Article_Page' }">
+            <div class="rechercher"><i class="fas fa-search white-icon"></i> Rechercher</div>
+        </router-link>
         <div>
             <select id="choix" name="choix" style=" margin-left: -30%;">
                 <option value="option1">Votre compte</option>
@@ -50,12 +50,12 @@
             </div>
         </div>
     </div>
-    <div
-        style="position: absolute;top:15%; right: 0; width: 80%; display: flex; justify-content: start; align-items: start; overflow-y: auto;">
-        <div style="width: 100%; display: flex; justify-content: center;">
-
-            <div style="width: 100%;">
-                    <div class="container-fluid pt-4 px-4 ">
+        <div
+            style="position: absolute;top:15%; right: 0; width: 80%; display: flex; justify-content: start; align-items: start; overflow-y: auto;">
+            <div style="width: 100%; display: flex; justify-content: center;">
+                <div style="width: 100%;">
+                    <div>
+                        <div class="container-fluid pt-4 px-4 ">
                         <div class="row g-4 h-100">
                             <div class="colmd-8">
                                 <div class="bg-light rounded  p-4  mt-4" style="position: absolute;">
@@ -69,7 +69,7 @@
                                             <button class="btn btn-danger" type="button"
                                                     style="margin-right: 450px; border-radius: 9px;">Rechercher</button>
                                         </div>
-                                        <router-link class="nav-link" :to="{ name: 'Article_Page' }">
+                                        <router-link class="nav-link" :to="{ name: 'Formulaire_Page' }">
                                                 <button class="btn btn-danger"
                                                     style="border-radius: 9px; margin-left: 60%; margin-top: -7%;">Ajouter</button>
                                         </router-link>
@@ -149,20 +149,21 @@
                             </div>
                         </div>
                     </div>
-                <div style="overflow: hidden; background-color: black;">
+                    </div>
                     <hr style="margin-top: 50%;">
-                    <p style="margin-left: %;">Copyright © 2023 Ministère des petites et moyennes entrepries Tout droit
-                    reservé.</p>
-                <div style="margin-left: 70%; margin-top: -5%;"><img class="logo2" src="@/assets/logo2.png" alt="">
-                </div>
-                <div class="container" style="margin-left: 1%;">
-                    <div class="rectangle green"></div>
-                    <div class="rectangle yellow"></div>
-                    <div class="rectangle red"></div>
-                </div>
+                    <p style="margin-left: 5%;">Copyright © 2023 Ministère des petites et moyennes entrepries Tout droit
+                        reservé.</p>
+                    <div style="margin-left: 70%; margin-top: -5%;"><img class="logo2" src="@/assets/logo2.png" alt="">
+                    </div>
+                    <div class="container">
+                        <div class="rectangle green"></div>
+                        <div class="rectangle yellow"></div>
+                        <div class="rectangle red"></div>
+                    </div>
+
                 </div>
             </div>
-        </div>
+        <!-- </div> -->
     </div>
 </template>
 <script>
@@ -196,11 +197,6 @@
 
 .sidebar li {
     padding: 8px;
-}
-
-.sidebar ul li a {
-    color: white;
-    text-decoration: none;
 }
 
 /* Styles pour la navbar */
@@ -250,7 +246,7 @@ option {
 }
 
 .rectangle {
-    width: 320px;
+    width: 325px;
     height: 10px;
     display: inline-block;
 }
@@ -269,7 +265,5 @@ option {
 
 router-link {
     cursor: pointer;
-}
-
-</style>
+}</style>
   
