@@ -3,7 +3,11 @@
 namespace App\EventSubscriber;
 
 use ApiPlatform\Symfony\EventListener\EventPriorities;
+use App\Entity\Dirigeant;
 use App\Entity\Historique;
+use App\Entity\Menu;
+use App\Entity\SousMenu;
+use App\Entity\ValeurDemande;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -79,7 +83,47 @@ final class ApiPlatformEventPersonnaliseSubscriber implements EventSubscriberInt
                 ;
 
                 $this->entityManager->persist($historique);
+
+                // Gestion du nbLiaison de Ministere et de Direction
+                if ($entity instanceof Dirigeant) {
+                    $entity->getMinistere()->setNbLiaison(
+                        (int) $entity->getMinistere()->getNbLiaison() + 1
+                    );
+                    $entity->getDirection()->setNbLiaison(
+                        (int) $entity->getDirection()->getNbLiaison() + 1
+                    );
+                }
+
+                // Gestion du nbLiaison de Header
+                if ($entity instanceof Menu) {
+                    $entity->getHeader()->setNbLiaison(
+                        (int) $entity->getHeader()->getNbLiaison() + 1
+                    );
+                }
+
+                // Gestion du nbLiaison de Menu
+                if ($entity instanceof SousMenu) {
+                    $entity->getMenu()->setNbLiaison(
+                        (int) $entity->getMenu()->getNbLiaison() + 1
+                    );
+                }
+
+                // Gestion du nbLiaison de Demande
+                if ($entity instanceof ValeurDemande) {
+                    $entity->getDemande()->setNbLiaison(
+                        (int) $entity->getDemande()->getNbLiaison() + 1
+                    );
+                }
+
                 $this->entityManager->flush();
+                $this->entityManager->refresh($historique);
+
+                // Gestion du nbLiaison de User
+                $historique->getUser()->setNbLiaison(
+                    (int) $historique->getUser()->getNbLiaison() + 1
+                );
+                $this->entityManager->flush();
+
             } else {
                 // Cas d'une modification
                 $historique = (new Historique())
