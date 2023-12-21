@@ -34,11 +34,10 @@ final class AjouterUserAction extends AbstractController
     {
     }
 
-    public function __invoke(Request $request): \ArrayObject
+    public function __invoke(Request $request): object
     {
-        $data = new \ArrayObject([
-            'message' => "Impossible de désérialiser les données."
-        ]);
+        $data = new \stdClass();
+        $data->message = "Impossible de désérialiser les données.";
 
         if ($request->attributes->get('data') instanceof User) {
             /*
