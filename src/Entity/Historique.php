@@ -50,12 +50,11 @@ use Doctrine\ORM\Mapping as ORM;
 //        )
     ]
 )]
-#[ApiFilter(OrderFilter::class, properties: ['id', 'operation', 'nomTable'])]
-#[ApiFilter(SearchFilter::class, properties: ['deleted' => 'exact', 'userAjout' => 'exact', 'userModif' => 'exact'])]
-class Historique implements UserOwnedInterface
+#[ApiFilter(OrderFilter::class, properties: ['id', 'operation', 'nomTable', 'user'])]
+#[ApiFilter(SearchFilter::class, properties: ['deleted' => 'exact', 'user' => 'exact'])]
+class Historique
 {
     use EntityTimestampTrait;
-    use UserAjoutModifTrait;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -82,6 +81,13 @@ class Historique implements UserOwnedInterface
         'read:Historique',
     ])]
     private ?int $idTable = null;
+
+    #[ORM\ManyToOne(inversedBy: 'historiques')]
+    #[ORM\JoinColumn(nullable: false)]
+    #[Groups([
+        'read:Historique',
+    ])]
+    private ?User $user = null;
 
     public function getId(): ?int
     {
@@ -120,6 +126,18 @@ class Historique implements UserOwnedInterface
     public function setIdTable(int $idTable): static
     {
         $this->idTable = $idTable;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }

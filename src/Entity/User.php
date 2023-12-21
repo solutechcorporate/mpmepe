@@ -76,6 +76,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, UserOwn
     #[Groups([
         'read:User',
         'read:UserRole',
+        'read:Historique',
     ])]
     private ?int $id = null;
 
@@ -84,6 +85,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, UserOwn
         'read:User',
         'write:User',
         'read:UserRole',
+        'read:Historique',
     ])]
     #[Assert\NotBlank]
     #[Assert\Email]
@@ -94,6 +96,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, UserOwn
     #[Groups([
         'read:User',
         'read:UserRole',
+        'read:Historique',
     ])]
     #[Assert\NotBlank]
     private array $roles = [];
@@ -113,6 +116,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, UserOwn
         'read:User',
         'write:User',
         'read:UserRole',
+        'read:Historique',
     ])]
     private ?string $username = null;
 
@@ -128,12 +132,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, UserOwn
 //    ])]
     public array $fichiers = [];
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Historique::class)]
+    private Collection $historiques;
+
     public function __construct()
     {
         $this->dateAjout = new \DateTimeImmutable();
         $this->dateModif = new \DateTime();
         $this->deleted = "0";
         $this->userRoles = new ArrayCollection();
+        $this->historiques = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -282,6 +290,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, UserOwn
     public function setFichiers(array $fichiers)
     {
         $this->fichiers = $fichiers;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Historique>
+     */
+    public function getHistoriques(): Collection
+    {
+        return $this->historiques;
+    }
+
+    public function addHistorique(Historique $historique): static
+    {
+        if (!$this->historiques->contains($historique)) {
+            $this->historiques->add($historique);
+            $historique->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHistorique(Historique $historique): static
+    {
+        if ($this->historiques->removeElement($historique)) {
+            // set the owning side to null (unless already changed)
+            if ($historique->getUser() === $this) {
+                $historique->setUser(null);
+            }
+        }
 
         return $this;
     }

@@ -22,7 +22,7 @@ final class DeleteArticleAction extends AbstractController
     /**
      * @throws ReflectionException
      */
-    public function __invoke(Request $request): ArrayObject|null
+    public function __invoke(Request $request): object|null
     {
         $data = new ArrayObject([
             'message' => "Impossible de supprimer la ressource."
