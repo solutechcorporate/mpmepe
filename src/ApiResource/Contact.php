@@ -84,5 +84,4 @@ class Contact
         return $this;
     }
 
-
 }

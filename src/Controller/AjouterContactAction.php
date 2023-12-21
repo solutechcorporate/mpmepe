@@ -6,6 +6,7 @@ use ApiPlatform\Serializer\SerializerContextBuilderInterface;
 use ApiPlatform\Symfony\Util\RequestAttributesExtractor;
 use App\Entity\Contact;
 use App\Entity\ContactValeurDemande;
+use App\Entity\Historique;
 use App\Entity\ValeurDemande;
 use App\Repository\FilesRepository;
 use App\Service\FileUploader;
@@ -23,9 +24,9 @@ final class AjouterContactAction extends AbstractController
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
-        private FileUploader $fileUploader,
-        private RandomStringGeneratorServices $randomStringGeneratorServices,
-        private FilesRepository $filesRepository,
+//        private FileUploader $fileUploader,
+//        private RandomStringGeneratorServices $randomStringGeneratorServices,
+//        private FilesRepository $filesRepository,
         private SerializerInterface $serializer,
         private SerializerContextBuilderInterface $serializerContextBuilder,
     )
@@ -73,6 +74,20 @@ final class AjouterContactAction extends AbstractController
                         ;
 
                         $this->entityManager->persist($contactValeurDemande);
+                        $this->entityManager->flush();
+
+                        // Gestion de nbLiaison et de l'historique
+                        $valeurDemande->setNbLiaison((int) $valeurDemande->getNbLiaison() + 1);
+                        $contact->setNbLiaison((int) $contact->getNbLiaison() + 1);
+
+                        $historique = (new Historique())
+                            ->setOperation("Ajout d'un nouvel enregistrement")
+                            ->setNomTable("ContactValeurDemande")
+                            ->setIdTable($contactValeurDemande->getId())
+                            ->setUser($this->getUser())
+                        ;
+
+                        $this->entityManager->persist($historique);
                     }
 
                     $this->entityManager->flush();
@@ -149,6 +164,20 @@ final class AjouterContactAction extends AbstractController
                             ;
 
                             $this->entityManager->persist($existContactValeurDemande);
+                            $this->entityManager->flush();
+
+                            // Gestion de nbLiaison et de l'historique
+                            $valeurDemande->setNbLiaison((int) $valeurDemande->getNbLiaison() + 1);
+                            $contact->setNbLiaison((int) $contact->getNbLiaison() + 1);
+
+                            $historique = (new Historique())
+                                ->setOperation("Ajout d'un nouvel enregistrement")
+                                ->setNomTable("ContactValeurDemande")
+                                ->setIdTable($existContactValeurDemande->getId())
+                                ->setUser($this->getUser())
+                            ;
+
+                            $this->entityManager->persist($historique);
                         }
                     }
 

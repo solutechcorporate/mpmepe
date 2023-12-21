@@ -5,6 +5,7 @@ namespace App\Controller;
 use ApiPlatform\Serializer\SerializerContextBuilderInterface;
 use ApiPlatform\Symfony\Util\RequestAttributesExtractor;
 use App\Entity\Header;
+use App\Entity\Historique;
 use App\Entity\Page;
 use App\Entity\PageHeader;
 use App\Repository\FilesRepository;
@@ -70,6 +71,20 @@ final class AjouterHeaderAction extends AbstractController
                         ;
 
                         $this->entityManager->persist($pageHeader);
+                        $this->entityManager->flush();
+
+                        // Gestion de nbLiaison et de l'historique
+                        $header->setNbLiaison((int) $header->getNbLiaison() + 1);
+                        $page->setNbLiaison((int) $page->getNbLiaison() + 1);
+
+                        $historique = (new Historique())
+                            ->setOperation("Ajout d'un nouvel enregistrement")
+                            ->setNomTable("PageHeader")
+                            ->setIdTable($pageHeader->getId())
+                            ->setUser($this->getUser())
+                        ;
+
+                        $this->entityManager->persist($historique);
                     }
 
                     $this->entityManager->flush();
@@ -146,6 +161,20 @@ final class AjouterHeaderAction extends AbstractController
                             ;
 
                             $this->entityManager->persist($existPageHeader);
+                            $this->entityManager->flush();
+
+                            // Gestion de nbLiaison et de l'historique
+                            $header->setNbLiaison((int) $header->getNbLiaison() + 1);
+                            $page->setNbLiaison((int) $page->getNbLiaison() + 1);
+
+                            $historique = (new Historique())
+                                ->setOperation("Ajout d'un nouvel enregistrement")
+                                ->setNomTable("PageHeader")
+                                ->setIdTable($existPageHeader->getId())
+                                ->setUser($this->getUser())
+                            ;
+
+                            $this->entityManager->persist($historique);
                         }
                     }
 

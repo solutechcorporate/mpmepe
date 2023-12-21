@@ -7,6 +7,7 @@ use ApiPlatform\Symfony\Util\RequestAttributesExtractor;
 use App\Entity\Document;
 use App\Entity\DocumentCategorieDocument;
 use App\Entity\CategorieDocument;
+use App\Entity\Historique;
 use App\Repository\FilesRepository;
 use App\Service\FileUploader;
 use App\Service\RandomStringGeneratorServices;
@@ -109,6 +110,20 @@ final class AjouterDocumentAction extends AbstractController
                         ;
 
                         $this->entityManager->persist($documentCategorieDocument);
+                        $this->entityManager->flush();
+
+                        // Gestion de nbLiaison et de l'historique
+                        $document->setNbLiaison((int) $document->getNbLiaison() + 1);
+                        $categorieDocument->setNbLiaison((int) $categorieDocument->getNbLiaison() + 1);
+
+                        $historique = (new Historique())
+                            ->setOperation("Ajout d'un nouvel enregistrement")
+                            ->setNomTable("DocumentCategorieDocument")
+                            ->setIdTable($documentCategorieDocument->getId())
+                            ->setUser($this->getUser())
+                        ;
+
+                        $this->entityManager->persist($historique);
                     }
 
                     $this->entityManager->flush();
@@ -223,6 +238,20 @@ final class AjouterDocumentAction extends AbstractController
                             ;
 
                             $this->entityManager->persist($existDocumentCategorieDocument);
+                            $this->entityManager->flush();
+
+                            // Gestion de nbLiaison et de l'historique
+                            $document->setNbLiaison((int) $document->getNbLiaison() + 1);
+                            $categorieDocument->setNbLiaison((int) $categorieDocument->getNbLiaison() + 1);
+
+                            $historique = (new Historique())
+                                ->setOperation("Ajout d'un nouvel enregistrement")
+                                ->setNomTable("DocumentCategorieDocument")
+                                ->setIdTable($existDocumentCategorieDocument->getId())
+                                ->setUser($this->getUser())
+                            ;
+
+                            $this->entityManager->persist($historique);
                         }
                     }
 
