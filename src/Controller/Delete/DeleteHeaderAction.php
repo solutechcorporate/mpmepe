@@ -24,9 +24,8 @@ final class DeleteHeaderAction extends AbstractController
      */
     public function __invoke(Request $request): object|null
     {
-        $data = new ArrayObject([
-            'message' => "Impossible de supprimer la ressource."
-        ]);
+        $data = new \stdClass();
+        $data->message = "Impossible de supprimer la ressource.";
 
         if ($request->attributes->get('data') instanceof Header) {
             /** @var Header $header */
