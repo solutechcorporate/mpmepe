@@ -170,9 +170,7 @@ final class AjouterMenuAction extends AbstractController
             $menu->setFichiers($fichiers);
 
             // On retourne un objet ArrayObject
-            $data = new \ArrayObject([
-                'menu' => $menu
-            ]);
+            $data = $menu;
         }
 
         return $data;

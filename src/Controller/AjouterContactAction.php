@@ -158,9 +158,7 @@ final class AjouterContactAction extends AbstractController
             } // resourceId existe
 
             // On retourne un objet ArrayObject
-            $data = new \ArrayObject([
-                'contact' => $contact
-            ]);
+            $data = $contact;
         }
 
         return $data;

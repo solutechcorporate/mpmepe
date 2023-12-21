@@ -170,9 +170,7 @@ final class AjouterSocialNetworkAction extends AbstractController
             $socialNetwork->setFichiers($fichiers);
 
             // On retourne un objet ArrayObject
-            $data = new \ArrayObject([
-                'socialNetwork' => $socialNetwork
-            ]);
+            $data = $socialNetwork;
         }
 
         return $data;

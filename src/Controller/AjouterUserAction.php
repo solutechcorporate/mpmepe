@@ -334,9 +334,7 @@ final class AjouterUserAction extends AbstractController
 //            $user->setFichiers($fichiers);
 
             // On retourne un objet ArrayObject
-            $data = new \ArrayObject([
-                'user' => $user,
-            ]);
+            $data = $user;
         }
 
         return $data;

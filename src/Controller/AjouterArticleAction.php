@@ -169,9 +169,7 @@ final class AjouterArticleAction extends AbstractController
             $article->setFichiers($fichiers);
 
             // On retourne un objet ArrayObject
-            $data = new \ArrayObject([
-                'article' => $article,
-            ]);
+            $data = $article;
         }
 
         return $data;

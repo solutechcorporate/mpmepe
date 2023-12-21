@@ -170,9 +170,7 @@ final class AjouterMinistereAction extends AbstractController
             $ministere->setFichiers($fichiers);
 
             // On retourne un objet ArrayObject
-            $data = new \ArrayObject([
-                'ministere' => $ministere,
-            ]);
+            $data = $ministere;
         }
 
         return $data;

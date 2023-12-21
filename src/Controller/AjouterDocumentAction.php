@@ -246,9 +246,7 @@ final class AjouterDocumentAction extends AbstractController
             $document->setFichiers($fichiers);
 
             // On retourne un objet ArrayObject
-            $data = new \ArrayObject([
-                'document' => $document
-            ]);
+            $data = $document;
         }
 
         return $data;

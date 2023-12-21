@@ -155,9 +155,7 @@ final class AjouterHeaderAction extends AbstractController
             } // resourceId existe
 
             // On retourne un objet ArrayObject
-            $data = new \ArrayObject([
-                'header' => $header,
-            ]);
+            $data = $header;
         }
 
         return $data;

@@ -170,9 +170,7 @@ final class AjouterPageAction extends AbstractController
             $page->setFichiers($fichiers);
 
             // On retourne un objet ArrayObject
-            $data = new \ArrayObject([
-                'page' => $page,
-            ]);
+            $data = $page;
         }
 
         return $data;
