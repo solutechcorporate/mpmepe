@@ -3,7 +3,7 @@ api_platform:
     version: 1.0.0
     show_webby: false
 #    eager_loading:
-#        max_joins: 30  # La valeur par défaut est 30
+#        max_joins: 100  # La valeur par défaut est 30
     formats:
         json:
             mime_types: ['application/json']

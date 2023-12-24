@@ -10,12 +10,10 @@ trait UserAjoutModifTrait
 {
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: true)]
-    #[Groups(['read:Entity'])]
     private ?User $userAjout = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: true)]
-    #[Groups(['read:Entity'])]
     private ?User $userModif = null;
 
     public function getUserAjout(): ?User
