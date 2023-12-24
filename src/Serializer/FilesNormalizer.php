@@ -55,7 +55,7 @@ final class FilesNormalizer implements ContextAwareNormalizerInterface, Normaliz
             return false;
         }
 
-        return $data instanceof Files;
+        return $data instanceof Files && (count($data->getFichiers()) === 0);
     }
 
 }

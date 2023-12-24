@@ -55,7 +55,7 @@ final class ArticleNormalizer implements ContextAwareNormalizerInterface, Normal
             return false;
         }
 
-        return $data instanceof Article;
+        return $data instanceof Article && (count($data->getFichiers()) === 0);
     }
 
 }

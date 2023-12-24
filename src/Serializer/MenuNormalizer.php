@@ -55,7 +55,7 @@ final class MenuNormalizer implements ContextAwareNormalizerInterface, Normalize
             return false;
         }
 
-        return $data instanceof Menu;
+        return $data instanceof Menu && (count($data->getFichiers()) === 0);
     }
 
 }

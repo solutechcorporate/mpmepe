@@ -55,7 +55,7 @@ final class DocumentNormalizer implements ContextAwareNormalizerInterface, Norma
             return false;
         }
 
-        return $data instanceof Document;
+        return $data instanceof Document && (count($data->getFichiers()) === 0);
     }
 
 }

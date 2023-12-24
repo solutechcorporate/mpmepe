@@ -55,7 +55,7 @@ final class SocialNetworkNormalizer implements ContextAwareNormalizerInterface, 
             return false;
         }
 
-        return $data instanceof SocialNetwork;
+        return $data instanceof SocialNetwork && (count($data->getFichiers()) === 0);
     }
 
 }

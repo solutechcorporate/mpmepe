@@ -55,7 +55,7 @@ final class PageNormalizer implements ContextAwareNormalizerInterface, Normalize
             return false;
         }
 
-        return $data instanceof Page;
+        return $data instanceof Page && (count($data->getFichiers()) === 0);
     }
 
 }

@@ -55,7 +55,7 @@ final class MinistereNormalizer implements ContextAwareNormalizerInterface, Norm
             return false;
         }
 
-        return $data instanceof Ministere;
+        return $data instanceof Ministere && (count($data->getFichiers()) === 0);
     }
 
 }
