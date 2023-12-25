@@ -145,6 +145,20 @@ class Document implements UserOwnedInterface
     ])]
     private ?float $extensionFichier = null;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true)]
+    #[Groups([
+        'read:Document',
+    ])]
+    private ?User $userAjout = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true)]
+    #[Groups([
+        'read:Document',
+    ])]
+    private ?User $userModif = null;
+
     public function __construct()
     {
         $this->dateAjout = new \DateTimeImmutable();

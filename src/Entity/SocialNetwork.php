@@ -122,6 +122,20 @@ class SocialNetwork implements UserOwnedInterface
     ])]
     public array $fichiers = [];
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true)]
+    #[Groups([
+        'read:SocialNetwork',
+    ])]
+    private ?User $userAjout = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true)]
+    #[Groups([
+        'read:SocialNetwork',
+    ])]
+    private ?User $userModif = null;
+
     public function getId(): ?int
     {
         return $this->id;

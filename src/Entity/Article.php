@@ -207,6 +207,20 @@ class Article implements UserOwnedInterface
     #[ORM\Column(nullable: true)]
     private ?int $nbLiaison = null;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true)]
+    #[Groups([
+        'read:Article',
+    ])]
+    private ?User $userAjout = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true)]
+    #[Groups([
+        'read:Article',
+    ])]
+    private ?User $userModif = null;
+
     #[Groups([
         'read:Article',
     ])]

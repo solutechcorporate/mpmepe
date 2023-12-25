@@ -77,6 +77,20 @@ class Demande implements UserOwnedInterface
     #[ORM\Column(nullable: true)]
     private ?int $nbLiaison = null;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true)]
+    #[Groups([
+        'read:Demande',
+    ])]
+    private ?User $userAjout = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true)]
+    #[Groups([
+        'read:Demande',
+    ])]
+    private ?User $userModif = null;
+
     #[ORM\OneToMany(mappedBy: 'demande', targetEntity: ValeurDemande::class)]
     #[Groups([
         'read:Demande',

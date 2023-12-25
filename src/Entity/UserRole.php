@@ -84,6 +84,20 @@ class UserRole implements UserOwnedInterface
     ])]
     private ?Role $role = null;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true)]
+    #[Groups([
+        'read:UserRole',
+    ])]
+    private ?User $userAjout = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true)]
+    #[Groups([
+        'read:UserRole',
+    ])]
+    private ?User $userModif = null;
+
     public function getId(): ?int
     {
         return $this->id;

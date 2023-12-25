@@ -150,6 +150,20 @@ class Ministere implements UserOwnedInterface
     ])]
     public array $fichiers = [];
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true)]
+    #[Groups([
+        'read:Ministere',
+    ])]
+    private ?User $userAjout = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true)]
+    #[Groups([
+        'read:Ministere',
+    ])]
+    private ?User $userModif = null;
+
     public function __construct()
     {
         $this->dirigeants = new ArrayCollection();

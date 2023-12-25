@@ -92,6 +92,20 @@ class ValeurDemande implements UserOwnedInterface
     #[ORM\OneToMany(mappedBy: 'valeurDemande', targetEntity: ContactValeurDemande::class)]
     private Collection $contactValeurDemandes;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true)]
+    #[Groups([
+        'read:ValeurDemande',
+    ])]
+    private ?User $userAjout = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true)]
+    #[Groups([
+        'read:ValeurDemande',
+    ])]
+    private ?User $userModif = null;
+
     public function __construct()
     {
         $this->contactValeurDemandes = new ArrayCollection();

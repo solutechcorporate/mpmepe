@@ -78,6 +78,20 @@ class Copyright implements UserOwnedInterface
     ])]
     private ?string $mentionLegale = null;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true)]
+    #[Groups([
+        'read:Copyright',
+    ])]
+    private ?User $userAjout = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true)]
+    #[Groups([
+        'read:Copyright',
+    ])]
+    private ?User $userModif = null;
+
     public function getId(): ?int
     {
         return $this->id;

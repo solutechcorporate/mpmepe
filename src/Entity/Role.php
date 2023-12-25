@@ -89,6 +89,20 @@ class Role implements UserOwnedInterface
     #[ORM\OneToMany(mappedBy: 'role', targetEntity: UserRole::class)]
     private Collection $userRoles;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true)]
+    #[Groups([
+        'read:Role',
+    ])]
+    private ?User $userAjout = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true)]
+    #[Groups([
+        'read:Role',
+    ])]
+    private ?User $userModif = null;
+
     public function __construct()
     {
         $this->userRoles = new ArrayCollection();

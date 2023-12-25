@@ -97,6 +97,20 @@ class Page implements UserOwnedInterface
     ])]
     public array $fichiers = [];
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true)]
+    #[Groups([
+        'read:Page',
+    ])]
+    private ?User $userAjout = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true)]
+    #[Groups([
+        'read:Page',
+    ])]
+    private ?User $userModif = null;
+
     public function __construct()
     {
         $this->pageHeaders = new ArrayCollection();

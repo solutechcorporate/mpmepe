@@ -135,6 +135,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, UserOwn
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Historique::class)]
     private Collection $historiques;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?User $userAjout = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?User $userModif = null;
+
     public function __construct()
     {
         $this->dateAjout = new \DateTimeImmutable();

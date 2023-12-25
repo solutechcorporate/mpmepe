@@ -118,6 +118,20 @@ class Menu implements UserOwnedInterface
     ])]
     public array $fichiers = [];
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true)]
+    #[Groups([
+        'read:Menu',
+    ])]
+    private ?User $userAjout = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true)]
+    #[Groups([
+        'read:Menu',
+    ])]
+    private ?User $userModif = null;
+
     public function __construct()
     {
         $this->sousMenus = new ArrayCollection();

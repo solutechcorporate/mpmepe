@@ -113,6 +113,20 @@ class Direction implements UserOwnedInterface
     #[ORM\Column(nullable: true)]
     private ?int $nbLiaison = null;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true)]
+    #[Groups([
+        'read:Direction',
+    ])]
+    private ?User $userAjout = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true)]
+    #[Groups([
+        'read:Direction',
+    ])]
+    private ?User $userModif = null;
+
     public function __construct()
     {
         $this->dirigeants = new ArrayCollection();

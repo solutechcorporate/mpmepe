@@ -83,6 +83,20 @@ class SousMenu implements UserOwnedInterface
     ])]
     private ?Menu $menu = null;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true)]
+    #[Groups([
+        'read:SousMenu',
+    ])]
+    private ?User $userAjout = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true)]
+    #[Groups([
+        'read:SousMenu',
+    ])]
+    private ?User $userModif = null;
+
     public function getId(): ?int
     {
         return $this->id;

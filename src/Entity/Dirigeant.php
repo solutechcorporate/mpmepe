@@ -177,6 +177,20 @@ class Dirigeant implements UserOwnedInterface
     ])]
     private ?Direction $direction = null;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true)]
+    #[Groups([
+        'read:Dirigeant',
+    ])]
+    private ?User $userAjout = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true)]
+    #[Groups([
+        'read:Dirigeant',
+    ])]
+    private ?User $userModif = null;
+
     public function __construct()
     {
         $this->dateAjout = new \DateTimeImmutable();

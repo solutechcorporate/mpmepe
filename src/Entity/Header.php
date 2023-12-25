@@ -114,6 +114,20 @@ class Header implements UserOwnedInterface
     #[ORM\OneToMany(mappedBy: 'header', targetEntity: PageHeader::class)]
     private Collection $pageHeaders;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true)]
+    #[Groups([
+        'read:Header',
+    ])]
+    private ?User $userAjout = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true)]
+    #[Groups([
+        'read:Header',
+    ])]
+    private ?User $userModif = null;
+
     public function __construct()
     {
         $this->menus = new ArrayCollection();

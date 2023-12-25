@@ -78,6 +78,20 @@ class CategorieDocument implements UserOwnedInterface
     #[ORM\Column(nullable: true)]
     private ?int $nbLiaison = null;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true)]
+    #[Groups([
+        'read:CategorieDocument',
+    ])]
+    private ?User $userAjout = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true)]
+    #[Groups([
+        'read:CategorieDocument',
+    ])]
+    private ?User $userModif = null;
+
     #[ORM\OneToMany(mappedBy: 'categorieDocument', targetEntity: DocumentCategorieDocument::class)]
     private Collection $documentCategorieDocuments;
 
